@@ -1,0 +1,52 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Output directories
+scratch/
+
+# Vercel
+.vercel/
+
+# Editor/OS directories
+.idea/
+.vscode/
+.claude/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# --- Auditoria de segurança/limpeza (2026-07) ---
+# Segredos / env na raiz (deploy/ já cobre a própria pasta)
+.env*
+!.env.example
+# Fontes COMERCIAIS (Gotham / Geometos) — não redistribuir. O widget usa Montserrat (Google Fonts).
+dados-logos/02-fontes/
+assets/fonts/
+# Artefato intermediário (o base64 já está embutido no HTML)
+assets/*.b64.txt
+# Binários pesados de marca (originais) — manter no disco, fora do repo
+*.ai
+*.cdr
+*.eps
+dados-logos/**/*.pdf

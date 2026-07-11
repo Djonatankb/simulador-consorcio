@@ -1,0 +1,202 @@
+﻿Codigo,Descricao,Credito,Parcela PF,Parcela PJ,Redutor,Prazo,Taxa Adm,Fundo de Reserva,Seguro de Vida,Sorteio,Lance Fixo,Lance Embutiro,Lance Livre,Plano,Status,Pontos Livelo,Credito Texto,Parcela PF Texto,Prazo Texto,CTA,Imagem,Reajuste anual
+AF01,AUTOMOVEL FLEX AF01,"$25000,00","$480,01","$480,01",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,6720,"Crédito: R$25.000,00"," R$ 480,01 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF02,AUTOMOVEL FLEX AF02,"$27500,00","$528,00","$528,00",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,7392,"Crédito: R$27.500,00"," R$ 528,00 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF03,AUTOMOVEL FLEX AF03,"$30000,00","$576,00","$576,00",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,8064,"Crédito: R$30.000,00"," R$ 576,00 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF04,AUTOMOVEL FLEX AF04,"$32500,00","$624,00","$624,00",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,8736,"Crédito: R$32.500,00"," R$ 624,00 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF05,AUTOMOVEL FLEX AF05,"$35000,00","$672,01","$672,01",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,9408,"Crédito: R$35.000,00"," R$ 672,01 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF06,AUTOMOVEL FLEX AF06,"$37500,00","$720,00","$720,00",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,10080,"Crédito: R$37.500,00"," R$ 720,00 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF07,AUTOMOVEL FLEX AF07,"$40000,00","$768,00","$768,00",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,10752,"Crédito: R$40.000,00"," R$ 768,00 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF08,AUTOMOVEL FLEX AF08,"$42500,00","$816,00","$816,00",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,11424,"Crédito: R$42.500,00"," R$ 816,00 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF09,AUTOMOVEL FLEX AF09,"$45000,00","$864,01","$864,01",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,12096,"Crédito: R$45.000,00"," R$ 864,01 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF10,AUTOMOVEL FLEX AF10,"$47500,00","$912,00","$912,00",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,12768,"Crédito: R$47.500,00"," R$ 912,00 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AF11,AUTOMOVEL FLEX AF11,"$50000,00","$960,00","$960,00",20%,50,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,996,Em formação ,13440,"Crédito: R$50.000,00"," R$ 960,00 ",Prazo: 50 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA01,AUTOMOVEL FLEX CREDITO ALTO AFCA01,"$62500,00","$737,44","$737,44",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,13274,"Crédito: R$62.500,00"," R$ 737,44 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA02,AUTOMOVEL FLEX CREDITO ALTO AFCA02,"$67000,00","$790,53","$790,53",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,14230,"Crédito: R$67.000,00"," R$ 790,53 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA03,AUTOMOVEL FLEX CREDITO ALTO AFCA03,"$67500,00","$796,44","$796,44",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,14336,"Crédito: R$67.500,00"," R$ 796,44 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA04,AUTOMOVEL FLEX CREDITO ALTO AFCA04,"$72500,00","$855,43","$855,43",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,15398,"Crédito: R$72.500,00"," R$ 855,43 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA05,AUTOMOVEL FLEX CREDITO ALTO AFCA05,"$77500,00","$914,43","$914,43",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,16460,"Crédito: R$77.500,00"," R$ 914,43 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA06,AUTOMOVEL FLEX CREDITO ALTO AFCA06,"$82500,00","$973,42","$973,42",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,17522,"Crédito: R$82.500,00"," R$ 973,42 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA07,AUTOMOVEL FLEX CREDITO ALTO AFCA07,"$87500,00","$1032,42","$1032,42",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,18584,"Crédito: R$87.500,00"," R$ 1.032,42 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA08,AUTOMOVEL FLEX CREDITO ALTO AFCA08,"$92500,00","$1091,41","$1091,41",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,19645,"Crédito: R$92.500,00"," R$ 1.091,41 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA09,AUTOMOVEL FLEX CREDITO ALTO AFCA09,"$97500,00","$1150,41","$1150,41",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,20707,"Crédito: R$97.500,00"," R$ 1.150,41 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA010,AUTOMOVEL FLEX CREDITO ALTO AFCA10,"$102500,00","$1209,40","$1209,40",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,21769,"Crédito: R$102.500,00"," R$ 1.209,40 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA11,AUTOMOVEL FLEX CREDITO ALTO AFCA11,"$107500,00","$1268,40","$1268,40",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,22831,"Crédito: R$107.500,00"," R$ 1.268,40 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA12,AUTOMOVEL FLEX CREDITO ALTO AFCA12,"$112500,00","$1327,39","$1327,39",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,23893,"Crédito: R$112.500,00"," R$ 1.327,39 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA13,AUTOMOVEL FLEX CREDITO ALTO AFCA13,"$117500,00","$1386,39","$1386,39",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,24955,"Crédito: R$117.500,00"," R$ 1.386,39 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA14,AUTOMOVEL FLEX CREDITO ALTO AFCA14,"$122500,00","$1445,38","$1445,38",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,26017,"Crédito: R$122.500,00"," R$ 1.445,38 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCA15,AUTOMOVEL FLEX CREDITO ALTO AFCA15,"$125000,00","$1474,88","$1474,88",20%,80,16%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,997,Em formação ,26548,"Crédito: R$125.000,00"," R$ 1.474,88 ",Prazo: 80 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM01,AUTOMOVEL FLEX CREDITO MEDIO AFCM01,"$34000,00","$453,32","$453,32",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,8160,"Crédito: R$34.000,00"," R$ 453,32 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM02,AUTOMOVEL FLEX CREDITO MEDIO AFCM02,"$35000,00","$466,66","$466,66",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,8400,"Crédito: R$35.000,00"," R$ 466,66 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM03,AUTOMOVEL FLEX CREDITO MEDIO AFCM03,"$37500,00","$499,99","$499,99",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,9000,"Crédito: R$37.500,00"," R$ 499,99 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM04,AUTOMOVEL FLEX CREDITO MEDIO AFCM04,"$40000,00","$533,32","$533,32",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,9600,"Crédito: R$40.000,00"," R$ 533,32 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM05,AUTOMOVEL FLEX CREDITO MEDIO AFCM05,"$42500,00","$566,66","$566,66",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,10200,"Crédito: R$42.500,00"," R$ 566,66 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM06,AUTOMOVEL FLEX CREDITO MEDIO AFCM06,"$45000,00","$599,99","$599,99",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,10800,"Crédito: R$45.000,00"," R$ 599,99 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM07,AUTOMOVEL FLEX CREDITO MEDIO AFCM07,"$47500,00","$633,32","$633,32",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,11400,"Crédito: R$47.500,00"," R$ 633,32 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM08,AUTOMOVEL FLEX CREDITO MEDIO AFCM08,"$50000,00","$666,65","$666,65",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,12000,"Crédito: R$50.000,00"," R$ 666,65 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM09,AUTOMOVEL FLEX CREDITO MEDIO AFCM09,"$52500,00","$699,99","$699,99",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,12600,"Crédito: R$52.500,00"," R$ 699,99 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM10,AUTOMOVEL FLEX CREDITO MEDIO AFCM10,"$55000,00","$733,32","$733,32",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,13200,"Crédito: R$55.000,00"," R$ 733,32 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM11,AUTOMOVEL FLEX CREDITO MEDIO AFCM11,"$57500,00","$766,65","$766,65",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,13800,"Crédito: R$57.500,00"," R$ 766,65 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM12,AUTOMOVEL FLEX CREDITO MEDIO AFCM12,"$60000,00","$799,98","$799,98",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,14400,"Crédito: R$60.000,00"," R$ 799,98 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM13,AUTOMOVEL FLEX CREDITO MEDIO AFCM13,"$62500,00","$833,32","$833,32",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,15000,"Crédito: R$62.500,00"," R$ 833,32 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+AFCM14,AUTOMOVEL FLEX CREDITO MEDIO AFCM14,"$65000,00","$866,65","$866,65",20%,72,18%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,995,Em formação ,15600,"Crédito: R$65.000,00"," R$ 866,65 ",Prazo: 72 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM01,VEICULOS PESADOS,"$180000,00","$1391,76","$1391,76",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,41753,"Crédito: R$180.000,00"," R$ 1.391,76 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM02,VEICULOS PESADOS,"$190000,00","$1469,08","$1469,08",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,44072,"Crédito: R$190.000,00"," R$ 1.469,08 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM03,VEICULOS PESADOS,"$200000,00","$1546,40","$1546,40",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,46392,"Crédito: R$200.000,00"," R$ 1.546,40 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM04,VEICULOS PESADOS,"$210000,00","$1623,72","$1623,72",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,48712,"Crédito: R$210.000,00"," R$ 1.623,72 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM05,VEICULOS PESADOS,"$220000,00","$1701,04","$1701,04",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,51031,"Crédito: R$220.000,00"," R$ 1.701,04 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM06,VEICULOS PESADOS,"$230000,00","$1778,36","$1778,36",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,53351,"Crédito: R$230.000,00"," R$ 1.778,36 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM07,VEICULOS PESADOS,"$240000,00","$1855,68","$1855,68",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,55670,"Crédito: R$240.000,00"," R$ 1.855,68 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM08,VEICULOS PESADOS,"$250000,00","$1993,00","$1993,00",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,59790,"Crédito: R$250.000,00"," R$ 1.993,00 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM09,VEICULOS PESADOS,"$260000,00","$2010,32","$2010,32",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,60310,"Crédito: R$260.000,00"," R$ 2.010,32 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM10,VEICULOS PESADOS,"$270000,00","$2087,64","$2087,64",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,62629,"Crédito: R$270.000,00"," R$ 2.087,64 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,IPCA
+VPM11,VEICULOS PESADOS,"$280000,00","$2164,96","$2164,96",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,64949,"Crédito: R$280.000,00"," R$ 2.164,96 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,
+VPM12,VEICULOS PESADOS,"$290000,00","$2242,28","$2242,28",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,67268,"Crédito: R$290.000,00"," R$ 2.242,28 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,
+VPM13,VEICULOS PESADOS,"$300000,00","$2319,60","$2319,60",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,69588,"Crédito: R$300.000,00"," R$ 2.319,60 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,
+VPM14,VEICULOS PESADOS,"$310000,00","$2396,92","$2396,92",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,71908,"Crédito: R$310.000,00"," R$ 2.396,92 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,
+VPM15,VEICULOS PESADOS,"$320000,00","$2474,24","$2474,24",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,74227,"Crédito: R$320.000,00"," R$ 2.474,24 ",Prazo: 120 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,
+VPM16,VEICULOS PESADOS,"$330000,00","$2551,56","$2551,56",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,76547,"Crédito: R$330.000,00"," R$ 2.551,56 ",Prazo: 120 meses,Contratar,,
+VPM17,VEICULOS PESADOS,"$340000,00","$2628,88","$2628,88",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,78866,"Crédito: R$340.000,00"," R$ 2.628,88 ",Prazo: 120 meses,Contratar,,
+VPM18,VEICULOS PESADOS,"$350000,00","$2709,20","$2709,20",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,81276,"Crédito: R$350.000,00"," R$ 2.709,20 ",Prazo: 120 meses,Contratar,,
+VPM19,VEICULOS PESADOS,"$360000,00","$2783,52","$2783,52",20%,120,14%,2%,Não possui ,1 por mês,40%,30%,Todas que o saldo do grupo permitir ,965,Em andamento,83506,"Crédito: R$360.000,00"," R$ 2.783,52 ",Prazo: 120 meses,Contratar,,
+AFC+01,CREDITO ALTO PREMIUM 1,"$125000,00","$1300,01","$1300,01",20%,90,15%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,998,Em formação ,32500,"Crédito: R$125.000,00"," R$ 1.300,01 ",Prazo: 90 meses,Contratar,,
+AFC+02,CREDITO ALTO PREMIUM 2,"$130000,00","$1352,00","$1352,00",20%,90,15%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,998,Em formação ,33800,"Crédito: R$130.000,00"," R$ 1.352,00 ",Prazo: 90 meses,Contratar,,
+AFC+03,CREDITO ALTO PREMIUM 3,"$140000,00","$1456,00","$1456,00",20%,90,15%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,998,Em formação ,36400,"Crédito: R$140.000,00"," R$ 1.456,00 ",Prazo: 90 meses,Contratar,,
+AFC+04,CREDITO ALTO PREMIUM 4,"$150000,00","$1560,00","$1560,00",20%,90,15%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,998,Em formação ,39000,"Crédito: R$150.000,00"," R$ 1.560,00 ",Prazo: 90 meses,Contratar,,
+AFC+05,CREDITO ALTO PREMIUM 5,"$160000,00","$1664,00","$1664,00",20%,90,15%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,998,Em formação ,41600,"Crédito: R$160.000,00"," R$ 1.664,00 ",Prazo: 90 meses,Contratar,,
+AFC+06,CREDITO ALTO PREMIUM 6,"$170000,00","$1768,00","$1768,00",20%,90,15%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,998,Em formação ,44200,"Crédito: R$170.000,00"," R$ 1.768,00 ",Prazo: 90 meses,Contratar,,
+AFC+07,CREDITO ALTO PREMIUM 7,"$180000,00","$1872,00","$1872,00",20%,90,15%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,998,Em formação ,46800,"Crédito: R$180.000,00"," R$ 1.872,00 ",Prazo: 90 meses,Contratar,,
+AFC+08,CREDITO ALTO PREMIUM 8,"$190000,00","$1976,00","$1976,00",20%,90,15%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,998,Em formação ,49400,"Crédito: R$190.000,00"," R$ 1.976,00 ",Prazo: 90 meses,Contratar,,
+AFC+09,CREDITO ALTO PREMIUM 9,"$200000,00","$2080,00","$2080,00",20%,90,15%,2%,Não possui ,1 por mês,Não possui ,15%,Todas que o saldo do grupo permitir ,998,Em formação ,52000,"Crédito: R$200.000,00"," R$ 2.080,00 ",Prazo: 90 meses,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,,
+,,,,,,,,,,,,,,,,,,,,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/Racon+Auto.jpeg,
+,,,,,,,,,,,,,,,,,,,,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaautoporto.png,
+,,,,,,,,,,,,,,,,,,,,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/Imagens+-+Automóvel+Servopa.png,

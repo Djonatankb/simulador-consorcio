@@ -1,0 +1,400 @@
+﻿Codigo,Descricao,Credito,Parcelas de 01 a 12,Demais parcelas,Redutor,Prazo ,Taxa Adm ,Taxa de Adesão ,Fundo de Reserva,Seguro de vida,Reajuste anual ,Sorteio ,Lance fixo ,Lance Embutido ,Lance Livre ,Plano,Status ,Pontos Livero,Credito Texto,Parcelas 01 a 12 Texto,Demais Parcelas Texto,Prazo Texto,CTA,Imagem,Parcelas Todas Texto
+IMOVEL FLEX IE1 XIE1X,IMOVEL FLEX,"70000,00",444.78,"328,09",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,15567,"Crédito: R$70.000,00","Parcela de 01 a 12: R$444,78","Demais parcelas: R$328,09",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12: R$ 444,78/ Demais parcelas: R$ 328,09
+"
+IMOVEL FLEX IE2 XIE2X,IMOVEL FLEX,"75000,00",476.57,"351,54",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,16680,"Crédito: R$75.000,00","Parcela de 01 a 12: R$476,57","Demais parcelas: R$351,54",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 476,57 / Demais parcelas:  R$ 351,54
+"
+IMOVEL FLEX IE3 XIE3X,IMOVEL FLEX,"80000,00",508.32,"374,96",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,17791,"Crédito: R$80.000,00","Parcela de 01 a 12: R$508,32","Demais parcelas: R$374,96",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 508,32 / Demais parcelas:  R$ 374,96
+"
+IMOVEL FLEX IE4 XIE4X,IMOVEL FLEX,"85000,00",540.11,"398,41",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,18904,"Crédito: R$85.000,00","Parcela de 01 a 12: R$540,11","Demais parcelas: R$398,41",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 540,11 / Demais parcelas:  R$ 398,41
+"
+IMOVEL FLEX IE5 XIE5X,IMOVEL FLEX,"90000,00",571.86,"421,83",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,20015,"Crédito: R$90.000,00","Parcela de 01 a 12: R$571,86","Demais parcelas: R$421,83",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 571,86 / Demais parcelas:  R$ 421,83
+"
+IMOVEL FLEX IE6 XIE6X,IMOVEL FLEX,"95000,00",603.65,"445,28",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,21128,"Crédito: R$95.000,00","Parcela de 01 a 12: R$603,65","Demais parcelas: R$445,28",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 603,65  / Demais parcelas:  R$ 445,28
+"
+IMOVEL FLEX IE7 XIE7X,IMOVEL FLEX,"100000,00",635.40,"468,70",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,22239,"Crédito: R$100.000,00","Parcela de 01 a 12: R$635,40","Demais parcelas: R$468,70",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 635,40 / Demais parcelas:  R$ 468,70
+"
+IMOVEL FLEX IE8 XIE8X,IMOVEL FLEX,"105000,00",667.19,"492,15",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,23352,"Crédito: R$105.000,00","Parcela de 01 a 12: R$667,19","Demais parcelas: R$492,15",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 667,19 / Demais parcelas: R$ 492,15
+"
+IMOVEL FLEX IE9 XIE9X,IMOVEL FLEX,"110000,00",698.94,"515,57",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,24463,"Crédito: R$110.000,00","Parcela de 01 a 12: R$698,94","Demais parcelas: R$515,57",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 698,94  / Demais parcelas:  R$ 515,57
+"
+IMOVEL FLEX IE10 XIE10X,IMOVEL FLEX,"115000,00",730.73,"539,02",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,25576,"Crédito: R$115.000,00","Parcela de 01 a 12: R$730,73","Demais parcelas: R$539,02",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 730,73  / Demais parcelas:  R$ 539,02
+"
+IMOVEL FLEX IE11 XIE11X,IMOVEL FLEX,"120000,00",762.48,"562,44",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,26687,"Crédito: R$120.000,00","Parcela de 01 a 12: R$762,48","Demais parcelas: R$562,44",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 762,48  / Demais parcelas:  R$ 562,44
+"
+IMOVEL FLEX IE12 XIE12X,IMOVEL FLEX,"125000,00",794.27,"585,89",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,27799,"Crédito: R$125.000,00","Parcela de 01 a 12: R$794,27","Demais parcelas: R$585,89",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 794,27 / Demais parcelas:   R$ 585,89
+
+"
+IMOVEL FLEX IE13 XIE13X,IMOVEL FLEX,"130000,00",826.02,"609,31",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,28911,"Crédito: R$130.000,00","Parcela de 01 a 12: R$826,02","Demais parcelas: R$609,31",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 826,02   / Demais parcelas:  R$ 609,31
+
+"
+IMOVEL FLEX IE14 XIE14X,IMOVEL FLEX,"135000,00",857.81,"632,76",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,30023,"Crédito: R$135.000,00","Parcela de 01 a 12: R$857,81","Demais parcelas: R$632,76",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 857,81   / Demais parcelas:   R$ 632,76
+
+"
+IMOVEL FLEX IE15 XIE15X,IMOVEL FLEX,"140000,00",889.56,"656,18",25%,200,25%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1032,Em formação ,31135,"Crédito: R$140.000,00","Parcela de 01 a 12: R$889,56","Demais parcelas: R$656,18",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 889,56   / Demais parcelas:  R$ 656,18
+"
+O1 IMOVEL PLANO FLEX MEDIO XO1X,IMOVEL FLEX,"140000,00",879.06,"645,68",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,30767,"Crédito: R$140.000,00","Parcela de 01 a 12: R$879,06","Demais parcelas: R$645,68",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 879,06  / Demais parcelas:  R$ 645,68 
+"
+O2 IMOVEL PLANO FLEX MEDIO XO2X,IMOVEL FLEX,"150000,00",941.85,"691,80",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,32965,"Crédito: R$150.000,00","Parcela de 01 a 12: R$941,85","Demais parcelas: R$691,80",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 941,85  / Demais parcelas:  R$ 691,80 
+"
+O3 IMOVEL PLANO FLEX MEDIO XO3X,IMOVEL FLEX,"160000,00",1004.64,"737,92",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,35162,"Crédito: R$160.000,00","Parcela de 01 a 12: R$1.004,64","Demais parcelas: R$737,92",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.004,64  / Demais parcelas:  R$ 737,92 
+"
+O4 IMOVEL PLANO FLEX MEDIO XO4X,IMOVEL FLEX,"170000,00",1067.43,"784,04",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,37360,"Crédito: R$170.000,00","Parcela de 01 a 12: R$1.067,43","Demais parcelas: R$784,04",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.067,43  / Demais parcelas:  R$ 784,04
+"
+O5 IMOVEL PLANO FLEX MEDIO XO5X,IMOVEL FLEX,"180000,00",1130.22,"830,16",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,39558,"Crédito: R$180.000,00","Parcela de 01 a 12: R$1.130,22","Demais parcelas: R$830,16",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.130,22  / Demais parcelas:  R$ 830,16 
+"
+O6 IMOVEL PLANO FLEX MEDIO XO6X,IMOVEL FLEX,"190000,00",1193.01,"876,28",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,41755,"Crédito: R$190.000,00","Parcela de 01 a 12: R$1.193,01","Demais parcelas: R$876,28",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.193,01  / Demais parcelas:  R$ 876,28 
+"
+O7 IMOVEL PLANO FLEX MEDIO XO7X,IMOVEL FLEX,"200000,00",1255.80,"922,40",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,43953,"Crédito: R$200.000,00","Parcela de 01 a 12: R$1.255,80","Demais parcelas: R$922,40",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$1.255,80  / Demais parcelas: R$922,40"
+O8 IMOVEL PLANO FLEX MEDIO XO8X,IMOVEL FLEX,"210000,00",1318.59,"968,52",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,46151,"Crédito: R$210.000,00","Parcela de 01 a 12: R$1.318,59","Demais parcelas: R$968,52",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.318,59  / Demais parcelas: R$ 968,52
+"
+O9 IMOVEL PLANO FLEX MEDIO XO9X,IMOVEL FLEX,"220000,00",1381.38,"1014,64",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,48348,"Crédito: R$220.000,00","Parcela de 01 a 12: R$1.381,38","Demais parcelas: R$1.014,64",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.381,38  / Demais parcelas:  R$ 1.014,64
+"
+O10 IMOVEL PLANO FLEX MEDIO XO10X,IMOVEL FLEX,"230000,00",1444.17,"1060,76",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,50546,"Crédito: R$230.000,00","Parcela de 01 a 12: R$1.444,17","Demais parcelas: R$1.060,76",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.444,17  / Demais parcelas:  R$ 1.060,76 
+"
+O11 IMOVEL PLANO FLEX MEDIO XO11X,IMOVEL FLEX,"240000,00",1506.96,"1106,88",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,52744,"Crédito: R$240.000,00","Parcela de 01 a 12: R$1.506,96","Demais parcelas: R$1.106,88",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.506,96  / Demais parcelas:  R$ 1.106,88 
+"
+O12 IMOVEL PLANO FLEX MEDIO XO12X,IMOVEL FLEX,"250000,00",1569.75,"1153,00",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,54941,"Crédito: R$250.000,00","Parcela de 01 a 12: R$1.569,75","Demais parcelas: R$1.153,00",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.569,75  / Demais parcelas:  R$ 1.153,00
+"
+O13 IMOVEL PLANO FLEX MEDIO XO13X,IMOVEL FLEX,"260000,00",1632.54,"1199,12",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,57139,"Crédito: R$260.000,00","Parcela de 01 a 12: R$1.632,54","Demais parcelas: R$1.199,12",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.632,54  / Demais parcelas:  R$ 1.199.12
+"
+O14 IMOVEL PLANO FLEX MEDIO XO14X,IMOVEL FLEX,"270000,00",1695.33,"1245,24",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,59337,"Crédito: R$270.000,00","Parcela de 01 a 12: R$1.695,33","Demais parcelas: R$1.245,24",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.695,33  / Demais parcelas:  R$ 1.245,24 
+"
+O15 IMOVEL PLANO FLEX MEDIO XO15X,IMOVEL FLEX,"280000,00",1758.12,"1291,36",25%,200,23%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1033,Em formação ,61534,"Crédito: R$280.000,00","Parcela de 01 a 12: R$1.758,12","Demais parcelas: R$1.291,36",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.758,12  / Demais parcelas:  R$ 1.291,36 
+"
+M01 IMOVEL PLANO FLEX M01,IMOVEL FLEX,"280000,00",1737.12,"1270,36",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,60799,"Crédito: R$280.000,00","Parcela de 01 a 12: R$1.737,12","Demais parcelas: R$1.270,36",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.737,12  / Demais parcelas:  R$ 1.270,36
+"
+M02 IMOVEL PLANO FLEX M02,IMOVEL FLEX,"290000,00",1799.16,"1315,73",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,62971,"Crédito: R$290.000,00","Parcela de 01 a 12: R$1.799,16","Demais parcelas: R$1.315,73",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.799,16  / Demais parcelas:  R$ 1.315,73 
+"
+M03 IMOVEL PLANO FLEX M03,IMOVEL FLEX,"300000,00",1861.20,"1361,10",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,65142,"Crédito: R$300.000,00","Parcela de 01 a 12: R$1.861,20","Demais parcelas: R$1.361,10",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.861,20  / Demais parcelas:  R$ 1.361,10 
+"
+M04 IMOVEL PLANO FLEX M04,IMOVEL FLEX,"310000,00",1923.24,"1406,47",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,67313,"Crédito: R$310.000,00","Parcela de 01 a 12: R$1.923,24","Demais parcelas: R$1.406,47",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12: R$ 1.923,24  / Demais parcelas:  R$ 1.406,47 
+"
+M05 IMOVEL PLANO FLEX M05,IMOVEL FLEX,"320000,00",1985.28,"1451,84",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,69485,"Crédito: R$320.000,00","Parcela de 01 a 12: R$1.985,28","Demais parcelas: R$1.451,84",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 1.985,28  / Demais parcelas:  R$ 1.451,84
+"
+M06 IMOVEL PLANO FLEX M06,IMOVEL FLEX,"330000,00",2047.32,"1497,21",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,71656,"Crédito: R$330.000,00","Parcela de 01 a 12: R$2.047,32","Demais parcelas: R$1.497,21",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 2.047,32  / Demais parcelas:  R$ 1.497,21 
+"
+M07 IMOVEL PLANO FLEX M07,IMOVEL FLEX,"340000,00",2109.36,"1542,58",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,73828,"Crédito: R$340.000,00","Parcela de 01 a 12: R$2.109,36","Demais parcelas: R$1.542,58",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 2.109,36  / Demais parcelas:  R$ 1.542,58 
+"
+M08 IMOVEL PLANO FLEX M08,IMOVEL FLEX,"350000,00",2171.40,"1587,95",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,75999,"Crédito: R$350.000,00","Parcela de 01 a 12: R$2.171,40","Demais parcelas: R$1.587,95",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 2.171,40  / Demais parcelas:  R$ 1.587,95 
+"
+M09 IMOVEL PLANO FLEX M09,IMOVEL FLEX,"360000,00",2233.44,"1633,32",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,78170,"Crédito: R$360.000,00","Parcela de 01 a 12: R$2.233,44","Demais parcelas: R$1.633,32",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 2.233,44  / Demais parcelas:  R$ 1.633,32 
+"
+M10 IMOVEL PLANO FLEX M10,IMOVEL FLEX,"370000,00",2295.48,"1678,69",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,80342,"Crédito: R$370.000,00","Parcela de 01 a 12: R$2.295,48","Demais parcelas: R$1.678,69",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 2.295,48  / Demais parcelas:  R$ 1.678,69 
+"
+M11 IMOVEL PLANO FLEX M11,IMOVEL FLEX,"380000,00",2357.52,"1724,06",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,82513,"Crédito: R$380.000,00","Parcela de 01 a 12: R$2.357,52","Demais parcelas: R$1.724,06",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 2.357,52 / Demais parcelas:  R$ 1.724,06 
+"
+M13 IMOVEL PLANO FLEX M13,IMOVEL FLEX,"400000,00",2481.60,"1814,80",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,86856,"Crédito: R$400.000,00","Parcela de 01 a 12: R$2.481,60","Demais parcelas: R$1.814,80",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 2.481,60  / Demais parcelas:  R$ 1.814,80 
+"
+M15 IMOVEL PLANO FLEX M15,IMOVEL FLEX,"420000,00",2605.68,"1905,54",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,91199,"Crédito: R$420.000,00","Parcela de 01 a 12: R$2.605,68","Demais parcelas: R$1.905,54",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12: R$ 2.605,68 / Demais parcelas: R$  R$ 1.905,54 
+"
+M16 IMOVEL PLANO FLEX M16,IMOVEL FLEX,"430000,00",2667.72,"1950,91",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,93370,"Crédito: R$430.000,00","Parcela de 01 a 12: R$2.667,72","Demais parcelas: R$1.950,91",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$  R$ 2.667,72 / Demais parcelas:  R$ 1.950,91 
+"
+M17 IMOVEL PLANO FLEX M17,IMOVEL FLEX,"440000,00",2729.76,"1996,28",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,95542,"Crédito: R$440.000,00","Parcela de 01 a 12: R$2.729,76","Demais parcelas: R$1.996,28",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 2.729,76   / Demais parcelas:   R$ 1.996,28 
+
+"
+M18 IMOVEL PLANO FLEX M18,IMOVEL FLEX,"450000,00",2791.80,"2041,65",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,97713,"Crédito: R$450.000,00","Parcela de 01 a 12: R$2.791,80","Demais parcelas: R$2.041,65",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 2.791,80   / Demais parcelas:  R$ 2.041,65 
+ 
+"
+M19 IMOVEL PLANO FLEX M19,IMOVEL FLEX,"460000,00",2853.84,"2087,02",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,99884,"Crédito: R$460.000,00","Parcela de 01 a 12: R$2.853,84","Demais parcelas: R$2.087,02",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 2.853,84   / Demais parcelas:   R$ 2.087,02 
+ 
+"
+M20 IMOVEL PLANO FLEX M20,IMOVEL FLEX,"470000,00",2915.88,"2132,39",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,102056,"Crédito: R$470.000,00","Parcela de 01 a 12: R$2.915,88","Demais parcelas: R$2.132,39",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 2.915,88   / Demais parcelas:   R$ 2.132,39 
+ 
+"
+M21 IMOVEL PLANO FLEX M21,IMOVEL FLEX,"480000,00",2977.92,"2177,76",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,104227,"Crédito: R$480.000,00","Parcela de 01 a 12: R$2.977,92","Demais parcelas: R$2.177,76",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 2.977,92   / Demais parcelas:   R$ 2.177,76 
+ 
+"
+M23 IMOVEL PLANO FLEX M23,IMOVEL FLEX,"500000,00",3102.00,"2268,50",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,108570,"Crédito: R$500.000,00","Parcela de 01 a 12: R$3.102,00","Demais parcelas: R$2.268,50",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$  R$ 3.102,00   / Demais parcelas:  R$ 2.268,50  
+"
+M24 IMOVEL PLANO FLEX M24,IMOVEL FLEX,"510000,00",3164.04,"2313,87",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,110741,"Crédito: R$510.000,00","Parcela de 01 a 12: R$3.164,04","Demais parcelas: R$2.313,87",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 3.164,04  / Demais parcelas:   R$ 2.313,87 
+ 
+"
+M25 IMOVEL PLANO FLEX M25,IMOVEL FLEX,"520000,00",3226.08,"2359,24",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,112913,"Crédito: R$520.000,00","Parcela de 01 a 12: R$3.226,08","Demais parcelas: R$2.359,24",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 3.226,08  / Demais parcelas:   R$ 2.359,24 
+ 
+"
+M26 IMOVEL PLANO FLEX M26,IMOVEL FLEX,"530000,00",3288.12,"2404,61",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,115084,"Crédito: R$530.000,00","Parcela de 01 a 12: R$3.288,12","Demais parcelas: R$2.404,61",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 3.288,12   / Demais parcelas:   R$ 2.404,61 
+ 
+"
+M27 IMOVEL PLANO FLEX M27,IMOVEL FLEX,"540000,00",3350.16,"2449,98",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,117256,"Crédito: R$540.000,00","Parcela de 01 a 12: R$3.350,16","Demais parcelas: R$2.449,98",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$ 3.350,16   / Demais parcelas:   R$ 2.449,98 
+ 
+"
+M28 IMOVEL PLANO FLEX M28,IMOVEL FLEX,"550000,00",3412.20,"2495,35",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,119427,"Crédito: R$550.000,00","Parcela de 01 a 12: R$3.412,20","Demais parcelas: R$2.495,35",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 3.412,20   / Demais parcelas:   R$ 2.495,35 
+ 
+"
+M29 IMOVEL PLANO FLEX M29,IMOVEL FLEX,"560000,00",3474.24,"2540,72",25%,200,21%,2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1034,Em formação ,121598,"Crédito: R$560.000,00","Parcela de 01 a 12: R$3.474,24","Demais parcelas: R$2.540,72",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 3.474,24  / Demais parcelas:   R$ 2.540,72 
+
+"
+IMP01- IMOVEL PLANO PREMIUM XIMP01X,IMOVEL PLANO PREMIUM,"600000,00",3688.80,"2688,00",25%,200,"19,5%",2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1035,Em formação ,129108,"Crédito: R$600.000,00","Parcela de 01 a 12: R$3.688,80","Demais parcelas: R$2.688,00",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:  R$  R$ 3.688,80   / Demais parcelas:  R$ 2.688,00 
+
+"
+IMP02- IMOVEL PLANO PREMIUM XIMP02X,IMOVEL PLANO PREMIUM,"650000,00",3996.20,"2912,00",25%,200,"19,5%",2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1035,Em formação ,139867,"Crédito: R$650.000,00","Parcela de 01 a 12: R$3.996,20","Demais parcelas: R$2.912,00",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 3.996,20   / Demais parcelas:   R$ 2.912,00 
+ 
+"
+IMP03 - IMOVEL PLANO PREMIUM XIMP03X,IMOVEL PLANO PREMIUM,"700000,00",4303.60,"3136,00",25%,200,"19,5%",2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1035,Em formação ,150626,"Crédito: R$700.000,00","Parcela de 01 a 12: R$4.303,60","Demais parcelas: R$3.136,00",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 4.303,60   / Demais parcelas:   R$ 3.136,00 
+ 
+"
+IMP04 - IMOVEL PLANO PREMIUM XIMP04X,IMOVEL PLANO PREMIUM,"750000,00",4611.00,"3360,00",25%,200,"19,5%",2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1035,Em formação ,161385,"Crédito: R$750.000,00","Parcela de 01 a 12: R$4.611,00","Demais parcelas: R$3.360,00",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 4.611,00   / Demais parcelas: R$ 3.360,00 
+
+"
+IMP05 - IMOVEL PLANO PREMIUM XIMP05X,IMOVEL PLANO PREMIUM,"800000,00",4918.40,"3584,00",25%,200,"19,5%",2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1035,Em formação ,172144,"Crédito: R$800.000,00","Parcela de 01 a 12: R$4.918,40","Demais parcelas: R$3.584,00",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 4.918,40   / Demais parcelas:  R$ 3.584,00 
+ 
+"
+IMP06 - IMOVEL PLANO PREMIUM XIMP06X,IMOVEL PLANO PREMIUM,"850000,00",5225.80,"3808,00",25%,200,"19,5%",2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1035,Em formação ,182903,"Crédito: R$850.000,00","Parcela de 01 a 12: R$5.225,80","Demais parcelas: R$3.808,00",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 5.225,80   / Demais parcelas:   R$ 3.808,00 
+ 
+"
+IMP07 - IMOVEL PLANO PREMIUM XIMP07X,IMOVEL PLANO PREMIUM,"900000,00",5533.20,"4032,00",25%,200,"19,5%",2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1035,Em formação ,193662,"Crédito: R$900.000,00","Parcela de 01 a 12: R$5.533,20","Demais parcelas: R$4.032,00",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 5.533,20   / Demais parcelas:   R$ 4.032,00 
+
+"
+IMP08 - IMOVEL PLANO PREMIUM XIMP08X,IMOVEL PLANO PREMIUM,"1000000,00",6148.00,"4480,00",25%,200,"19,5%",2%,2%,Não possui ,A média entre IPCA e INCC,1 por mês ,40%,30%,Todas que o saldo do grupo permitir ,1035,Em formação ,215180,"Crédito: R$1.000.000,00","Parcela de 01 a 12: R$6.148,00","Demais parcelas: R$4.480,00",Prazo: 200 meses,Contratar,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png,"Parcela de 01 a 12:   R$ 6.148,00   / Demais parcelas:   R$ 4.480,00 
+ 
+"
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,, / 
+,,,,,,,,,,,,,,,,,,,,,,,,https://ligaconsorcio.s3.us-east-2.amazonaws.com/Racon+Imovel.jpeg, / 
+,,,,,,,,,,,,,,,,,,,,,,,,https://ligaconsorcio.s3.us-east-2.amazonaws.com/midiaimovelporto.png, / 
+,,,,,,,,,,,,,,,,,,,,,,,,https://ligaconsorcio.s3.us-east-2.amazonaws.com/Imagens+-+Imóvel+Servopa.png, / 
