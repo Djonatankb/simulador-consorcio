@@ -13,6 +13,7 @@ servido pela Vercel e embutido, via iframe, na página `livelo.ligavitoria.com.b
 | `deploy/` | Pasta ligada ao projeto Vercel (`.vercel/`). `deploy/index.html` é a cópia publicada do widget. |
 | `dados/planos-unificado.csv` · `dados/planos.json` | Planos do Airtable normalizados — backup e fonte do modo demonstração. |
 | `dados-logos/` | Logos de marca (SVG/PNG). Fontes comerciais e binários pesados ficam **fora do repo** (ver `.gitignore`). |
+| `docs/troca-widget-wordpress.md` | Passo a passo para substituir o Landbot pelo widget no WordPress/Elementor (aguardando aprovação da direção). |
 
 ## Arquitetura
 
