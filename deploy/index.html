@@ -173,9 +173,13 @@
   form.proposta{display:grid; clear:both; grid-template-columns:1fr 1fr; gap:12px 14px; margin-top:12px;}
   form.proposta .full{grid-column:1/-1;}
   form.proposta label{font-size:.78rem; font-weight:600; color:var(--texto-forte); display:block; margin-bottom:4px;}
-  form.proposta input{
+  form.proposta input, form.proposta select{
     width:100%; border:1.5px solid var(--azul); border-radius:8px; padding:10px 12px; font:inherit; font-size:.88rem;
   }
+  form.proposta select:disabled{opacity:.55; cursor:not-allowed;}
+  form.proposta .naturalidade{display:flex; gap:8px; flex-wrap:wrap;}
+  form.proposta .naturalidade select#naturalidade_uf{flex:0 0 110px; width:110px;}
+  form.proposta .naturalidade #naturalidade_cidade{flex:1; min-width:140px;}
   form.proposta button{
     grid-column:1/-1; background:var(--azul); color:#fff; border:0; border-radius:10px;
     padding:13px; font:inherit; font-weight:700; cursor:pointer; margin-top:4px;
@@ -209,7 +213,7 @@
     .opcoes button{padding:11px 18px; font-size:.9rem;}
     .plano{flex-basis:min(250px, 76vw);}
     /* inputs com fonte <16px fazem o iOS dar zoom ao focar — trava em 16px */
-    .inline-input input, form.proposta input{font-size:16px;}
+    .inline-input input, form.proposta input, form.proposta select{font-size:16px;}
     form.proposta{grid-template-columns:1fr; gap:10px;}
     form.proposta .full{grid-column:auto;}
     .sms-toast{left:12px; right:12px; top:12px; max-width:none;}
@@ -490,6 +494,97 @@ function validaDataNascimento(v){
   return dt.getFullYear()===aa && dt.getMonth()===mm-1 && dt.getDate()===dd
     && aa>=1900 && dt <= new Date();
 }
+
+// UFs do Brasil (sigla, nome) — ordenadas pelo nome, para o select de naturalidade
+const UFS = [
+  ["AC","Acre"],["AL","Alagoas"],["AP","Amapá"],["AM","Amazonas"],["BA","Bahia"],
+  ["CE","Ceará"],["DF","Distrito Federal"],["ES","Espírito Santo"],["GO","Goiás"],
+  ["MA","Maranhão"],["MT","Mato Grosso"],["MS","Mato Grosso do Sul"],["MG","Minas Gerais"],
+  ["PA","Pará"],["PB","Paraíba"],["PR","Paraná"],["PE","Pernambuco"],["PI","Piauí"],
+  ["RJ","Rio de Janeiro"],["RN","Rio Grande do Norte"],["RS","Rio Grande do Sul"],
+  ["RO","Rondônia"],["RR","Roraima"],["SC","Santa Catarina"],["SP","São Paulo"],
+  ["SE","Sergipe"],["TO","Tocantins"]
+];
+
+// Preposições que a formatação de nome de cidade mantém em minúsculo
+const PREPOSICOES_CIDADE = new Set(["de","da","do","das","dos","e"]);
+// A BrasilAPI devolve nomes de cidade em MAIÚSCULAS — reformata para Título, preservando preposições
+function capitalizaCidade(nome){
+  return nome.toLowerCase().split(" ").map((palavra,i)=>
+    i>0 && PREPOSICOES_CIDADE.has(palavra) ? palavra : palavra.charAt(0).toUpperCase()+palavra.slice(1)
+  ).join(" ");
+}
+
+const CACHE_CIDADES = new Map(); // UF -> lista de cidades já buscada (evita rebuscar)
+const TIMEOUT_CIDADES_MS = 8000;
+
+// Troca o campo de texto livre de naturalidade por dois selects encadeados (Estado -> Cidade),
+// buscando cidades na BrasilAPI. Se a API falhar ou demorar, cai para input de texto livre —
+// o lead nunca pode travar por causa de uma dependência externa.
+function montarNaturalidade(form){
+  const campoAtual = form.querySelector("#naturalidade");
+  const wrap = el(`<div class="naturalidade">
+    <select id="naturalidade_uf" required aria-label="Estado"><option value="">Estado</option></select>
+    <select id="naturalidade_cidade" required disabled aria-label="Cidade"><option value="">Cidade</option></select>
+    <input type="hidden" id="naturalidade">
+  </div>`);
+  const selectUf = wrap.querySelector("#naturalidade_uf");
+  UFS.forEach(([sigla,nome])=> selectUf.add(new Option(nome, sigla))); // nunca innerHTML com dado dinâmico
+
+  form.querySelector('label[for="naturalidade"]').setAttribute("for","naturalidade_uf");
+  campoAtual.replaceWith(wrap);
+
+  const atualizaHidden = ()=>{
+    const cidade = wrap.querySelector("#naturalidade_cidade").value.trim();
+    wrap.querySelector("#naturalidade").value = cidade && selectUf.value ? `${cidade} - ${selectUf.value}` : "";
+  };
+  wrap.querySelector("#naturalidade_cidade").addEventListener("change", atualizaHidden);
+
+  // Sem cidade vinda da API: vira input de texto livre para não bloquear o cadastro
+  const usarFallback = ()=>{
+    const input = el(`<input id="naturalidade_cidade" required placeholder="Digite sua cidade">`);
+    input.addEventListener("input", atualizaHidden);
+    wrap.querySelector("#naturalidade_cidade").replaceWith(input);
+  };
+
+  const preencherCidades = nomes=>{
+    const selectCidade = wrap.querySelector("#naturalidade_cidade");
+    if(selectCidade.tagName!=="SELECT") return; // já caiu no fallback nesse meio-tempo
+    selectCidade.innerHTML = "";
+    selectCidade.add(new Option("Cidade",""));
+    nomes.forEach(nome=> selectCidade.add(new Option(nome, nome)));
+    selectCidade.disabled = false;
+  };
+
+  const carregarCidades = async uf=>{
+    const cache = CACHE_CIDADES.get(uf);
+    if(cache){ if(selectUf.value===uf) preencherCidades(cache); return; }
+    const controller = new AbortController();
+    const timer = setTimeout(()=>controller.abort(), TIMEOUT_CIDADES_MS);
+    try{
+      const resp = await fetch(`https://brasilapi.com.br/api/ibge/municipios/v1/${uf}`, { signal: controller.signal });
+      if(!resp.ok) throw new Error("http "+resp.status);
+      const lista = await resp.json();
+      const nomes = lista.map(m=>capitalizaCidade(m.nome)).sort((a,b)=>a.localeCompare(b,"pt-BR"));
+      CACHE_CIDADES.set(uf, nomes);
+      if(selectUf.value===uf) preencherCidades(nomes); // ignora resposta atrasada de UF já trocada
+    }catch(err){
+      if(selectUf.value===uf) usarFallback();
+    }finally{
+      clearTimeout(timer);
+    }
+  };
+
+  selectUf.addEventListener("change", ()=>{
+    const selectCidade = wrap.querySelector("#naturalidade_cidade");
+    if(selectCidade.tagName!=="SELECT"){ atualizaHidden(); return; } // fallback texto: cidade fica visível/editável, só recompõe o par
+    wrap.querySelector("#naturalidade").value = ""; // trocar a UF invalida o par anterior até escolher nova cidade
+    selectCidade.innerHTML = "";
+    selectCidade.add(new Option(selectUf.value ? "Carregando cidades..." : "Cidade", ""));
+    selectCidade.disabled = true;
+    if(selectUf.value) carregarCidades(selectUf.value);
+  });
+}
 function formProposta(){
   return new Promise(resolve=>{
     const bolha = botMsg("<p>Para análise da proposta, precisaremos de <strong>algumas informações complementares:</strong></p>");
@@ -507,6 +602,7 @@ function formProposta(){
     const form = el(`<form class="proposta">${campos.map(([id,rot,ph,cls])=>
       `<div class="${cls||""}"><label for="${id}">${rot}</label><input id="${id}" required placeholder="${ph}"></div>`).join("")}
       <button type="submit">Continuar</button></form>`);
+    montarNaturalidade(form); // troca o input livre por selects encadeados de Estado/Cidade
     campos.forEach(([id,,,,mask])=>{
       if(!mask) return;
       const inp = form.querySelector("#"+id);
@@ -520,7 +616,8 @@ function formProposta(){
       const docOk = doc.length===11 ? validaCPF(doc) : validaCNPJ(doc);
       const erros = [
         [!docOk, "#cpf", "CPF/CNPJ inválido — confira os dígitos."],
-        [!validaDataNascimento(form.querySelector("#nascimento").value), "#nascimento", "Data de nascimento inválida — use dd/mm/aaaa."]
+        [!validaDataNascimento(form.querySelector("#nascimento").value), "#nascimento", "Data de nascimento inválida — use dd/mm/aaaa."],
+        [!form.querySelector("#naturalidade").value.trim(), "#naturalidade_uf", "Selecione estado e cidade."]
       ];
       const falha = erros.find(([cond])=>cond);
       if(falha){

@@ -8,7 +8,7 @@ servido pela Vercel e embutido, via iframe, na página `livelo.ligavitoria.com.b
 
 | Arquivo | O que é |
 |---|---|
-| `simulador-consorcio.html` | Widget completo (HTML+CSS+JS num arquivo). `BACKEND_URL` vazio = modo demonstração (SMS mostrado na tela). Fonte: Montserrat (Google Fonts). Fallback de OTP: contador regressivo de 60s libera o reenvio de SMS; corrigir o número fica disponível desde o início. |
+| `simulador-consorcio.html` | Widget completo (HTML+CSS+JS num arquivo). `BACKEND_URL` vazio = modo demonstração (SMS mostrado na tela). Fonte: Montserrat (Google Fonts). Fallback de OTP: contador regressivo de 60s libera o reenvio de SMS; corrigir o número fica disponível desde o início. Naturalidade com dropdowns UF→cidade (BrasilAPI, com fallback para texto se a API falhar). |
 | `backend-apps-script.gs` | **Fonte única** do backend (Apps Script Web App). Roteia `send_otp / verify_otp / get_plans / update_lead`. |
 | `deploy/` | Pasta ligada ao projeto Vercel (`.vercel/`). `deploy/index.html` é a cópia publicada do widget. |
 | `dados/planos-unificado.csv` · `dados/planos.json` | Planos do Airtable normalizados — backup e fonte do modo demonstração. |
