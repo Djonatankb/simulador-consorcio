@@ -339,6 +339,7 @@ function pergunta(html, opts={}){
     };
     box.querySelector("button").onclick = enviar;
     input.addEventListener("keydown", e=>{ if(e.key==="Enter") enviar(); });
+    if(opts.mascara) input.addEventListener("input", ()=>{ input.value = MASCARAS[opts.mascara](input.value); });
     if(opts.reenvio) fallback = armarReenvio(bolha, opts.reenvio, encerrar, ()=>encerrado);
     scrollFim();
   });
@@ -461,7 +462,8 @@ const MASCARAS = {
       ? d.replace(/^(\d{3})(\d)/,"$1.$2").replace(/^(\d{3}\.\d{3})(\d)/,"$1.$2").replace(/^(\d{3}\.\d{3}\.\d{3})(\d)/,"$1-$2")
       : d.replace(/^(\d{2})(\d)/,"$1.$2").replace(/^(\d{2}\.\d{3})(\d)/,"$1.$2").replace(/^(\d{2}\.\d{3}\.\d{3})(\d)/,"$1/$2").replace(/^(\d{2}\.\d{3}\.\d{3}\/\d{4})(\d)/,"$1-$2");
   },
-  cep: v => soDigitos(v).slice(0,8).replace(/^(\d{5})(\d)/,"$1-$2")
+  cep: v => soDigitos(v).slice(0,8).replace(/^(\d{5})(\d)/,"$1-$2"),
+  milhar: v => soDigitos(v).slice(0,7).replace(/\B(?=(\d{3})+(?!\d))/g,".") // separador de milhar ao vivo — evita digitar 10.000 achando que é 100.000
 };
 function validaCPF(d){
   if(d.length!==11 || /^(\d)\1{10}$/.test(d)) return false;
@@ -626,7 +628,7 @@ async function fluxo(){
     lead.valor = (await pergunta(primeiraVez
         ? "Certo, agora me informe qual o <strong>valor do crédito desejado:</strong>"
         : "Sem problemas! Me informe o <strong>valor do crédito desejado:</strong>",
-      {prefixo:"R$", placeholder:"Digite aqui", inputmode:"numeric",
+      {prefixo:"R$", placeholder:"Ex.: 100.000", inputmode:"numeric", mascara:"milhar",
        valida:v=>{const n=+v.replace(/\D/g,""); return n>=20000 && n<=1200000;},
        msgErro:"Informe um valor entre R$ 20.000 e R$ 1.200.000",
        eco:v=>(+v.replace(/\D/g,"")).toLocaleString("pt-BR")})).replace(/\D/g,"");
