@@ -8,7 +8,7 @@ servido pela Vercel e embutido, via iframe, na página `livelo.ligavitoria.com.b
 
 | Arquivo | O que é |
 |---|---|
-| `simulador-consorcio.html` | Widget completo (HTML+CSS+JS num arquivo). `BACKEND_URL` vazio = modo demonstração (SMS mostrado na tela). Fonte: Montserrat (Google Fonts). |
+| `simulador-consorcio.html` | Widget completo (HTML+CSS+JS num arquivo). `BACKEND_URL` vazio = modo demonstração (SMS mostrado na tela). Fonte: Montserrat (Google Fonts). Fallback de OTP: após 60s sem validar, oferece reenviar SMS ou corrigir o número. |
 | `backend-apps-script.gs` | **Fonte única** do backend (Apps Script Web App). Roteia `send_otp / verify_otp / get_plans / update_lead`. |
 | `deploy/` | Pasta ligada ao projeto Vercel (`.vercel/`). `deploy/index.html` é a cópia publicada do widget. |
 | `dados/planos-unificado.csv` · `dados/planos.json` | Planos do Airtable normalizados — backup e fonte do modo demonstração. |
@@ -60,7 +60,7 @@ bloco `<script>` do Landbot por um `<iframe>` em tela cheia apontando para a URL
 
 ## Segurança (endurecimento aplicado)
 
-- OTP: limite de **5 tentativas de verificação** por código (anti-brute-force) + limite de 3 envios/10 min; código derivado de UUID.
+- OTP: limite de **5 tentativas de verificação** por código (anti-brute-force) + limite de 3 envios/10 min; código derivado de UUID. Após 60s sem validação, o widget oferece reenvio ou correção do número, dentro do mesmo limite de envios.
 - Erros internos **nunca** vão ao cliente (mensagem genérica + `Logger`).
 - Escrita na planilha passa por `sane()` (anti-injeção de fórmula/CSV).
 - Validação de entrada (telefone, valor, ação, uuid) em toda borda do roteador.

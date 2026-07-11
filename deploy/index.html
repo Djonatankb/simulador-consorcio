@@ -110,6 +110,15 @@
   .inline-input button:hover{color:var(--azul-escuro);}
   .hint{font-size:.7rem; color:var(--texto-suave); margin-top:6px;}
   .erro{font-size:.75rem; color:#B3261E; margin-top:6px; font-weight:600; clear:both;}
+  /* Fallback "não recebeu o código?" do OTP — aparece 1 min depois, sem prender o usuário no fluxo. */
+  .reenvio-otp{display:flex; flex-wrap:wrap; align-items:center; gap:8px; clear:both; margin-top:6px; font-size:.72rem; color:var(--texto-suave);}
+  .reenvio-otp .fb-acoes{display:flex; align-items:center; gap:10px;}
+  .reenvio-otp .fb-acoes button{
+    background:none; border:0; padding:0; font:inherit; font-size:.72rem; font-weight:600;
+    color:var(--azul); text-decoration:underline; cursor:pointer;
+  }
+  .reenvio-otp .fb-acoes button:hover{color:var(--azul-escuro);}
+  .reenvio-otp .fb-acoes button:disabled{opacity:.5; cursor:default; text-decoration:none;}
 
   /* Botões de resposta rápida no estilo dos chips do WhatsApp: pílulas claras com borda */
   .opcoes{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px; padding-left:2px;}
@@ -227,6 +236,7 @@
 // Em produção: URL do Web App do Google Apps Script (backend/code.gs).
 // Vazio = modo demonstração (SMS simulado em tela, planilha simulada no painel abaixo).
 const BACKEND_URL = "https://script.google.com/macros/s/AKfycbx2np8HzHEm6i1DSi1mWFQta3-6Wvdx7GyvJdt58QO4D4QK6rPlB3FwJtj478VLDjxf/exec";
+const REENVIO_OTP_MS = 60000; // fallback "não recebeu o código?" aparece após 1 min sem validar
 
 // ---- Integração com o backend (Apps Script) ----
 // POST com corpo text/plain (evita preflight de CORS, que o Apps Script não responde).
@@ -285,6 +295,7 @@ function atualizaPlanilha(status){
 
 // ============ RENDER ============
 function el(html){ const t=document.createElement("template"); t.innerHTML=html.trim(); return t.content.firstChild; }
+const escHtml = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); // texto vindo do backend nunca deve virar HTML
 function scrollFim(){ chat.scrollTo({top:chat.scrollHeight, behavior:"smooth"}); window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"}); }
 
 function botMsg(html){
@@ -308,6 +319,13 @@ function pergunta(html, opts={}){
     bolha.append(box, hint);
     const input = box.querySelector("input");
     input.focus();
+    let fallback = null, encerrado = false;
+    const encerrar = v=>{
+      encerrado = true;
+      fallback?.cancelar();
+      box.remove(); hint.remove(); bolha.querySelector(".erro")?.remove();
+      resolve(v);
+    };
     const enviar = ()=>{
       const v = input.value.trim();
       if(!v) return;
@@ -316,14 +334,44 @@ function pergunta(html, opts={}){
         bolha.appendChild(el(`<div class="erro">${opts.msgErro}</div>`));
         return;
       }
-      box.remove(); hint.remove(); bolha.querySelector(".erro")?.remove();
       userMsg((opts.prefixo?opts.prefixo+" ":"") + (opts.eco?opts.eco(v):v));
-      resolve(v);
+      encerrar(v);
     };
     box.querySelector("button").onclick = enviar;
     input.addEventListener("keydown", e=>{ if(e.key==="Enter") enviar(); });
+    if(opts.reenvio) fallback = armarReenvio(bolha, opts.reenvio, encerrar, ()=>encerrado);
     scrollFim();
   });
+}
+// Fallback "não recebeu o código?": evita prender o usuário para sempre se o SMS não chegar.
+// Após o atraso, oferece reenviar o SMS (com cooldown) ou corrigir o número (encerra a pergunta com o sentinela).
+function armarReenvio(bolha, reenvio, encerrar, jaEncerrou){
+  let timer = null, caixa = null;
+  const armar = ()=>{
+    timer = setTimeout(()=>{
+      caixa?.remove();
+      caixa = el(`<div class="reenvio-otp"><span class="fb-txt">Não recebeu o código?</span><span class="fb-acoes"><button type="button" class="fb-reenviar">Reenviar SMS</button><button type="button" class="fb-corrigir">Corrigir número</button></span></div>`);
+      bolha.appendChild(caixa); scrollFim();
+      caixa.querySelector(".fb-reenviar").onclick = async ()=>{
+        caixa.querySelectorAll("button").forEach(b=> b.disabled = true);
+        const r = await reenvio.reenviar();
+        if(jaEncerrou()) return; // pergunta foi respondida durante o reenvio: não reexibir nada em bolha antiga
+        const txt = caixa.querySelector(".fb-txt");
+        if(r.ok){
+          txt.textContent = "Código reenviado ✓ — use o mais recente.";
+          caixa.querySelector(".fb-acoes")?.remove();
+          armar(); // cooldown real de 60s (limite de envios é por número) antes de oferecer reenvio de novo
+        }else{
+          txt.textContent = `⚠️ ${r.erro}`;
+          caixa.querySelector(".fb-reenviar")?.remove();
+          caixa.querySelector(".fb-corrigir").disabled = false; // limite é por número: corrigir continua útil
+        }
+      };
+      caixa.querySelector(".fb-corrigir").onclick = ()=>{ userMsg("Corrigir número"); encerrar(reenvio.valorCorrigir); };
+    }, reenvio.delayMs);
+  };
+  armar();
+  return { cancelar: ()=>{ clearTimeout(timer); caixa?.remove(); } };
 }
 function botoes(lista){
   return new Promise(resolve=>{
@@ -483,6 +531,21 @@ function formProposta(){
   });
 }
 
+// Envia (ou reenvia) o código OTP por SMS — usado no envio inicial e no fallback "Reenviar SMS".
+async function enviarOtp(){
+  if(BACKEND_URL){
+    try{
+      const envio = await api("send_otp", { telefone: lead.telefone });
+      if(!envio.ok) return { ok:false, erro: envio.erro || "Não consegui enviar o SMS agora. Tente novamente em alguns minutos." };
+      if(envio.demo_codigo) smsToast(envio.demo_codigo); // gateway ainda não contratado: o backend devolve o código (modo teste)
+      return { ok:true };
+    }catch(err){ return { ok:false, erro:"Falha ao contatar o servidor. Verifique sua conexão e tente de novo." }; }
+  }
+  otpEsperado = String(Math.floor(1500+Math.random()*8000)); // mesma faixa do bot atual: Random(1500,9500)
+  smsToast(otpEsperado); // demonstração sem backend: o "SMS" aparece só na tela
+  return { ok:true };
+}
+
 // ============ FLUXO ============
 async function fluxo(){
   botMsg("Olá! Bem-vindo ao nosso serviço de simulação de consórcios. <strong>Eu sou a Lígia, sua assistente virtual e estou aqui para te ajudar!</strong>");
@@ -512,20 +575,26 @@ async function fluxo(){
 
   // ---- OTP ----
   await digitando(800);
-  if(BACKEND_URL){
-    try{
-      const envio = await api("send_otp", { telefone: lead.telefone });
-      if(!envio.ok) botMsg(`⚠️ ${envio.erro || "Não consegui enviar o SMS agora. Tente novamente em alguns minutos."}`);
-      else if(envio.demo_codigo) smsToast(envio.demo_codigo); // gateway ainda não contratado: o backend devolve o código (modo teste)
-    }catch(err){ botMsg("⚠️ Falha ao contatar o servidor. Verifique sua conexão e tente de novo."); }
-  }else{
-    otpEsperado = String(Math.floor(1500+Math.random()*8000)); // mesma faixa do bot atual: Random(1500,9500)
-    smsToast(otpEsperado); // demonstração sem backend: o "SMS" aparece só na tela
-  }
+  let envio = await enviarOtp();
+  if(!envio.ok) botMsg(`⚠️ ${escHtml(envio.erro)}`);
+  const CORRIGIR_NUMERO = {}; // sentinela devolvida pela pergunta quando o usuário quer trocar o telefone
+  const reenvioOtp = { delayMs: REENVIO_OTP_MS, reenviar: enviarOtp, valorCorrigir: CORRIGIR_NUMERO };
   let ok = false;
   let msg = "Vou te enviar um código por SMS para o número que você informou.<p>É rapidinho! Isso me ajuda a garantir a segurança das informações.</p><p>Assim que receber o código no seu celular, digite aqui para continuar.</p>";
   while(!ok){
-    const cod = await pergunta(msg, {prefixo:"Informe o código:", placeholder:"0000", inputmode:"numeric"});
+    const cod = await pergunta(msg, {prefixo:"Informe o código:", placeholder:"0000", inputmode:"numeric", reenvio: reenvioOtp});
+    if(cod === CORRIGIR_NUMERO){
+      await digitando(500);
+      lead.telefone = (await pergunta("Sem problemas! Qual o número correto do <strong>seu celular (com DDD)?</strong>",
+        {placeholder:"Digite aqui", inputmode:"tel",
+         valida:v=>/^\d{10,11}$/.test(v.replace(/\D/g,"")), msgErro:"Digite um telefone válido (DDD + número)"})).replace(/\D/g,"");
+      atualizaPlanilha();
+      envio = await enviarOtp();
+      if(!envio.ok) botMsg(`⚠️ ${escHtml(envio.erro)}`);
+      await digitando(500);
+      msg = "Prontinho! Enviei um novo código para o número atualizado. <strong>Digite aqui para continuar:</strong>";
+      continue;
+    }
     let erroVerif = "";
     if(BACKEND_URL){
       try{
@@ -537,7 +606,7 @@ async function fluxo(){
     }else{
       ok = (cod.replace(/\D/g,"") === otpEsperado);
     }
-    if(!ok){ await digitando(500); msg = erroVerif ? `⚠️ ${erroVerif}` : "Hmm, esse código não confere. <strong>Tente novamente:</strong>"; }
+    if(!ok){ await digitando(500); msg = erroVerif ? `⚠️ ${escHtml(erroVerif)}` : "Hmm, esse código não confere. <strong>Tente novamente:</strong>"; }
   }
   document.querySelector(".sms-toast")?.remove(); // código validado → dispensa a notificação
   lead.verificado = "sim";
