@@ -288,6 +288,22 @@ const chat = document.getElementById("chat");
 const fmt = v => v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 const hora = () => new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
 
+// Resume o dispositivo no formato que o Landbot usava (ex.: "Other / Windows / Chrome") — widget
+// roda em iframe, então deriva do userAgent em vez de um SDK nativo de detecção.
+function resumoDispositivo(){
+  const ua = navigator.userAgent || "";
+  const aparelho = /iPhone/.test(ua) ? "iPhone" : /iPad/.test(ua) ? "iPad" : /Android/.test(ua) ? "Android" : "Other";
+  const so = /Windows/.test(ua) ? "Windows" : /Android/.test(ua) ? "Android" : /iPhone|iPad|iOS/.test(ua) ? "iOS"
+    : /Mac OS X/.test(ua) ? "macOS" : /Linux/.test(ua) ? "Linux" : "Other";
+  let navegador = "Other";
+  if(/Edg/.test(ua)) navegador = "Edge";
+  else if(/Chrome/.test(ua)) navegador = "Chrome";
+  else if(/Safari/.test(ua) && /Mobile/.test(ua)) navegador = "Mobile Safari";
+  else if(/Safari/.test(ua)) navegador = "Safari";
+  else if(/Firefox/.test(ua)) navegador = "Firefox";
+  return `${aparelho} / ${so} / ${navegador}`;
+}
+
 function atualizaPlanilha(status){
   if(status) lead.status = status;
   const tds = document.querySelectorAll("#leadRow td");
@@ -703,7 +719,8 @@ async function fluxo(){
     if(BACKEND_URL){
       try{
         const r = await api("verify_otp", { telefone: lead.telefone, codigo: cod.replace(/\D/g,""),
-                                            nome: lead.nome, email: lead.email, tipo: lead.tipo });
+                                            nome: lead.nome, email: lead.email, tipo: lead.tipo,
+                                            dispositivo: resumoDispositivo(), url: document.referrer || location.href });
         ok = !!r.ok;
         if(ok) leadUuid = r.uuid; else erroVerif = r.erro || "";
       }catch(err){ ok = false; }
@@ -753,9 +770,12 @@ async function fluxo(){
     plano = await carrossel(planos);
     lead.plano = plano.codigo;
     lead.credito = plano.credito;
-    lead.parcela = fmt(plano.parcelaCard);
+    lead.parcela = fmt(plano.parcelaCard); // string formatada — paridade com o histórico Landbot
+    lead.descricao = plano.descricao;
+    lead.pontos = plano.pontos;
     atualizaPlanilha("escolheu plano");
-    sincronizaLead({ valor: lead.valor, plano: lead.plano, credito: lead.credito, parcela: lead.parcela, status: "escolheu plano" });
+    sincronizaLead({ valor: lead.valor, plano: lead.plano, credito: lead.credito, parcela: lead.parcela,
+                     descricao: lead.descricao, pontos: lead.pontos, status: "escolheu plano" });
 
     const parcelas = plano.demais!=null
       ? `<dt>Parcela de 01 a 12:</dt><dd>${fmt(plano.inicial)}</dd>

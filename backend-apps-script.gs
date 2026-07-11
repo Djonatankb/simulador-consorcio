@@ -2,13 +2,14 @@
  * Backend do Simulador de Consórcio — Liga Vitória
  * Google Apps Script (gratuito), publicado como Web App. A URL /exec fica em BACKEND_URL do widget.
  *
- * Grava os leads na planilha "Leads do Consórcio - Landbot", aba "Leads". Layout REAL das colunas
- * (o que este código escreve — ver a constante COL):
- *   1 created | 2 nome | 3 email | 4 telefone | 5 verificado | 6 tipo | 7 valor |
- *   8 plano | 9 credito | 10 parcela | 11 status | 12 uuid | 13 proposta (JSON, dados sensíveis)
+ * Grava os leads na planilha "Leads do Consórcio - Landbot", aba "Leads" — a original do Landbot,
+ * com 33 colunas nomeadas na linha 1. A escrita é POR NOME DE CABEÇALHO (nunca por posição): ver
+ * a constante MAPA_COLUNAS (campo interno → cabeçalho) e os helpers indiceColunas/gravaCampos.
+ * Isso deixa o código imune a reordenação de colunas na planilha. Duas colunas próprias do widget
+ * (uuid_widget, status_widget) são criadas automaticamente no fim da planilha por garanteColunasWidget.
  *
- * (Futuro: leads irão para o Salesforce; quando a integração do CRM estiver pronta, trocar o corpo
- *  de verifyOtp/updateLead por uma chamada à API deles.)
+ * (Futuro: leads irão para o Salesforce; quando a integração do CRM estiver pronta, MAPA_COLUNAS é
+ *  o DE-PARA a portar — trocar o corpo de verifyOtp/updateLead por uma chamada à API deles.)
  *
  * SMS: API da Comtele (developers.comtele.com.br). Segredos ficam em Propriedades do Script — nunca aqui.
  *
@@ -21,10 +22,17 @@
 const SPREADSHEET_ID = '1FeMY6hfwSix7YR_ndVVxFjcqt2D4JaPWtd38Qc4wP3k';
 const AIRTABLE_BASE = 'appAXa666ayzjld9S';
 
-// Índices de coluna (1-based) da aba "Leads" — fonte única para leitura/escrita.
-const COL = {
-  CREATED: 1, NOME: 2, EMAIL: 3, TELEFONE: 4, VERIFICADO: 5, TIPO: 6,
-  VALOR: 7, PLANO: 8, CREDITO: 9, PARCELA: 10, STATUS: 11, UUID: 12, PROPOSTA: 13
+// DE-PARA campo interno → cabeçalho da aba "Leads" (linha 1). Escrita é POR NOME — imune a
+// reordenação de colunas. (Salesforce futuro: este dicionário é o mapeamento a portar p/ o CRM.)
+const MAPA_COLUNAS = {
+  data:'Data', nome:'Nome', email:'Email', cpf:'CPF', telefone:'Telefone',
+  tipo:'Tipo de Consórcio', valor:'Valor desejado', plano:'Código Consórcio',
+  descricao:'Descrição Consórcio', credito:'Valor Consórcio', parcela:'Parcela Consórcio',
+  pontos:'Pontos Livelo', dispositivo:'Dispositivo', url:'URL',
+  nome_completo:'nome_completo', nascimento:'data_de_nascimento', rg:'rg_doc',
+  orgao:'orgao_emissor', naturalidade:'naturalidade', nome_mae:'nome_completo_da_mae',
+  endereco:'endereco_completo', cep:'cep',
+  uuid:'uuid_widget', status:'status_widget'   // colunas do widget, criadas no fim da planilha
 };
 
 // Parâmetros de OTP e anti-abuso.
@@ -148,12 +156,23 @@ function verifyOtp(req) {
     cache.put('try_' + tel, String(tentativas + 1), OTP_TTL);
     return { ok: false };
   }
+  // Número verificado → grava o lead (nome + telefone verificado). Campos de texto passam por sane().
+  // Trava a linha contra corrida de dois leads simultâneos (dois getLastRow() lendo a mesma linha).
+  const uuid = Utilities.getUuid();
+  const lock = LockService.getScriptLock();
+  lock.waitLock(5000);
+  try {
+    const aba = abaLeads();
+    garanteColunasWidget(aba);
+    const linha = aba.getLastRow() + 1;
+    gravaCampos(aba, linha, { data: new Date(), nome: sane(req.nome), email: sane(req.email),
+      telefone: tel, tipo: sane(req.tipo), dispositivo: sane(req.dispositivo), url: sane(req.url),
+      uuid: uuid, status: 'lead verificado' });
+  } finally { lock.releaseLock(); }
+  // OTP só é invalidado APÓS a gravação: se o Sheets/lock falhar, o código segue válido (TTL 5min)
+  // e o usuário repete a verificação sem precisar de novo SMS.
   cache.remove('otp_' + tel);
   cache.remove('try_' + tel);
-  // Número verificado → grava o lead (nome + telefone verificado). Campos de texto passam por sane().
-  const uuid = Utilities.getUuid();
-  abaLeads().appendRow([new Date(), sane(req.nome), sane(req.email), tel, 'sim', sane(req.tipo),
-                        '', '', '', '', 'lead verificado', uuid]);
   return { ok: true, uuid: uuid };
 }
 
@@ -208,22 +227,110 @@ function updateLead(req) {
   const uuid = String((req && req.uuid) || '');
   if (!/^[0-9a-f-]{36}$/i.test(uuid)) return { ok: false, erro: 'lead não encontrado' };
   const aba = abaLeads();
+  const indice = indiceColunas(aba);
+  if (!indice.uuid) return { ok: false, erro: 'lead não encontrado' };
   const dados = aba.getDataRange().getValues();
+  const colUuid = indice.uuid - 1;
   for (let i = dados.length - 1; i >= 1; i--) {
-    if (dados[i][COL.UUID - 1] === uuid) {
-      const linha = i + 1;
-      if (req.valor != null) aba.getRange(linha, COL.VALOR).setValue(numOuSane(req.valor));
-      if (req.plano) aba.getRange(linha, COL.PLANO, 1, 3).setValues([[sane(req.plano), numOuSane(req.credito), numOuSane(req.parcela)]]);
-      if (req.status) aba.getRange(linha, COL.STATUS).setValue(sane(req.status));
-      // Proposta com dados sensíveis (CPF, RG, endereço) — LGPD: restrinja o compartilhamento da
-      // planilha, defina prazo de retenção e mantenha o texto de consentimento no widget.
-      if (req.proposta) aba.getRange(linha, COL.PROPOSTA).setValue(JSON.stringify(req.proposta));
-      return { ok: true };
+    if (dados[i][colUuid] !== uuid) continue;
+    const linha = i + 1;
+    const campos = {
+      valor: numOuSane(req.valor), plano: sane(req.plano), descricao: sane(req.descricao),
+      credito: numOuSane(req.credito), parcela: numOuSane(req.parcela), pontos: numOuSane(req.pontos),
+      status: sane(req.status)
+    };
+    // Proposta com dados sensíveis (CPF, RG, endereço) — agora em colunas nomeadas, não mais um JSON
+    // numa célula só. LGPD: mesma cautela de sempre — restrinja compartilhamento e defina retenção.
+    if (req.proposta) {
+      ['nome_completo', 'cpf', 'nascimento', 'rg', 'orgao', 'naturalidade', 'nome_mae', 'endereco', 'cep']
+        .forEach(function (campo) { campos[campo] = sane(req.proposta[campo]); });
     }
+    gravaCampos(aba, linha, campos);
+    return { ok: true };
   }
   return { ok: false, erro: 'lead não encontrado' };
+}
+
+// ---------- Migração one-off ----------
+// Corrige as linhas gravadas com o layout antigo (por posição, 13 colunas) para o mapeamento por
+// nome de cabeçalho (MAPA_COLUNAS). RODAR UMA VEZ MANUALMENTE no editor do Apps Script (selecionar
+// esta função na barra de execução → Executar) e depois pode remover. Não é chamada pelo roteador.
+function migrarLinhasDescasadas() {
+  const LINHA_INICIO = 10605, LINHA_FIM = 10610; // faixa das linhas descasadas nesta planilha
+  const aba = abaLeads();
+  garanteColunasWidget(aba);
+  for (let linha = LINHA_INICIO; linha <= LINHA_FIM; linha++) {
+    // Layout antigo: created, nome, email, telefone, verificado, tipo, valor, plano, credito,
+    // parcela, status, uuid, proposta (JSON).
+    const antigas = aba.getRange(linha, 1, 1, 13).getValues()[0];
+    const created = antigas[0], nome = antigas[1], email = antigas[2], telefone = antigas[3],
+          tipo = antigas[5], valor = antigas[6], plano = antigas[7], credito = antigas[8],
+          parcela = antigas[9], status = antigas[10], uuid = antigas[11], propostaRaw = antigas[12];
+    aba.getRange(linha, 1, 1, 13).clearContent();
+    const campos = {
+      data: created, nome: sane(nome), email: sane(email), telefone: sane(telefone), tipo: sane(tipo),
+      valor: numOuSane(valor), plano: sane(plano), credito: numOuSane(credito), parcela: numOuSane(parcela),
+      status: sane(status), uuid: sane(uuid)
+    };
+    if (propostaRaw) {
+      try {
+        const proposta = JSON.parse(propostaRaw);
+        ['nome_completo', 'cpf', 'nascimento', 'rg', 'orgao', 'naturalidade', 'nome_mae', 'endereco', 'cep']
+          .forEach(function (campo) { campos[campo] = sane(proposta[campo]); });
+      } catch (e) { /* célula 13 não era JSON válido — ignora, migra só o que dá */ }
+    }
+    gravaCampos(aba, linha, campos);
+  }
 }
 
 // ---------- Utilidades ----------
 function planilha() { return SpreadsheetApp.openById(SPREADSHEET_ID); }
 function abaLeads() { return planilha().getSheetByName('Leads'); }
+
+// Garante que a aba tenha as colunas do widget (uuid_widget/status_widget); cria as que faltarem
+// logo após o último cabeçalho existente, sem mexer no layout original do Landbot.
+function garanteColunasWidget(aba) {
+  const ultimaCol = aba.getLastColumn();
+  const cabecalhos = aba.getRange(1, 1, 1, ultimaCol).getValues()[0];
+  const faltando = ['uuid_widget', 'status_widget'].filter(function (nome) {
+    return cabecalhos.indexOf(nome) === -1;
+  });
+  faltando.forEach(function (nome, i) { aba.getRange(1, ultimaCol + 1 + i).setValue(nome); });
+}
+
+// Lê a linha 1 e devolve {campoInterno: coluna(1-based)} para cada entrada de MAPA_COLUNAS
+// encontrada no cabeçalho (ignora as ausentes).
+function indiceColunas(aba) {
+  const ultimaCol = aba.getLastColumn();
+  const cabecalhos = aba.getRange(1, 1, 1, ultimaCol).getValues()[0];
+  const indice = {};
+  Object.keys(MAPA_COLUNAS).forEach(function (campo) {
+    const col = cabecalhos.indexOf(MAPA_COLUNAS[campo]) + 1; // indexOf -1 (ausente) vira col 0
+    if (col > 0) indice[campo] = col;
+  });
+  // Cabeçalho renomeado/divergente = campo que deixaria de ser gravado em silêncio — deixa rastro no log.
+  const ausentes = Object.keys(MAPA_COLUNAS).filter(function (campo) { return !indice[campo]; });
+  if (ausentes.length) Logger.log('indiceColunas: sem coluna na planilha para: ' + ausentes.join(', '));
+  return indice;
+}
+
+// Diagnóstico manual (rodar no editor do Apps Script após qualquer mudança na planilha):
+// lista os campos de MAPA_COLUNAS sem coluna correspondente na linha 1. Vazio = DE-PARA íntegro.
+function diagnosticoColunas() {
+  const indice = indiceColunas(abaLeads());
+  const ausentes = Object.keys(MAPA_COLUNAS).filter(function (c) { return !indice[c]; });
+  Logger.log(ausentes.length ? 'AUSENTES: ' + ausentes.join(', ') : 'OK — todos os cabeçalhos casam.');
+  return ausentes;
+}
+
+// Grava {campoInterno: valor} nas colunas correspondentes (por nome de cabeçalho), pulando
+// valores undefined/''. Uma leitura de cabeçalho por chamada — aceitável no volume deste backend.
+function gravaCampos(aba, linha, campos) {
+  const indice = indiceColunas(aba);
+  Object.keys(campos).forEach(function (campo) {
+    const valor = campos[campo];
+    if (valor === undefined || valor === '') return;
+    const col = indice[campo];
+    if (col) aba.getRange(linha, col).setValue(valor);
+  });
+}
