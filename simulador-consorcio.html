@@ -343,35 +343,40 @@ function pergunta(html, opts={}){
     scrollFim();
   });
 }
-// Fallback "não recebeu o código?": evita prender o usuário para sempre se o SMS não chegar.
-// Após o atraso, oferece reenviar o SMS (com cooldown) ou corrigir o número (encerra a pergunta com o sentinela).
+// Fallback "não recebeu o código?": visível desde o início, com contador regressivo no botão de reenvio.
+// Ao zerar, libera "Reenviar SMS" (novo cooldown a cada reenvio); "Corrigir número" fica disponível desde já.
 function armarReenvio(bolha, reenvio, encerrar, jaEncerrou){
-  let timer = null, caixa = null;
-  const armar = ()=>{
-    timer = setTimeout(()=>{
-      caixa?.remove();
-      caixa = el(`<div class="reenvio-otp"><span class="fb-txt">Não recebeu o código?</span><span class="fb-acoes"><button type="button" class="fb-reenviar">Reenviar SMS</button><button type="button" class="fb-corrigir">Corrigir número</button></span></div>`);
-      bolha.appendChild(caixa); scrollFim();
-      caixa.querySelector(".fb-reenviar").onclick = async ()=>{
-        caixa.querySelectorAll("button").forEach(b=> b.disabled = true);
-        const r = await reenvio.reenviar();
-        if(jaEncerrou()) return; // pergunta foi respondida durante o reenvio: não reexibir nada em bolha antiga
-        const txt = caixa.querySelector(".fb-txt");
-        if(r.ok){
-          txt.textContent = "Código reenviado ✓ — use o mais recente.";
-          caixa.querySelector(".fb-acoes")?.remove();
-          armar(); // cooldown real de 60s (limite de envios é por número) antes de oferecer reenvio de novo
-        }else{
-          txt.textContent = `⚠️ ${r.erro}`;
-          caixa.querySelector(".fb-reenviar")?.remove();
-          caixa.querySelector(".fb-corrigir").disabled = false; // limite é por número: corrigir continua útil
-        }
-      };
-      caixa.querySelector(".fb-corrigir").onclick = ()=>{ userMsg("Corrigir número"); encerrar(reenvio.valorCorrigir); };
-    }, reenvio.delayMs);
+  const fmtSeg = s => `${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`;
+  const caixa = el(`<div class="reenvio-otp"><span class="fb-txt">Não recebeu o código?</span><span class="fb-acoes"><button type="button" class="fb-reenviar" disabled></button><button type="button" class="fb-corrigir">Corrigir número</button></span></div>`);
+  const btnReenviar = caixa.querySelector(".fb-reenviar");
+  let cron = null;
+  const contagem = ()=>{
+    let resta = Math.round(reenvio.delayMs/1000);
+    const rotulo = ()=>{
+      btnReenviar.disabled = resta > 0;
+      btnReenviar.textContent = resta > 0 ? `Reenviar em ${fmtSeg(resta)}` : "Reenviar SMS";
+    };
+    rotulo();
+    cron = setInterval(()=>{ resta--; rotulo(); if(resta<=0) clearInterval(cron); }, 1000);
   };
-  armar();
-  return { cancelar: ()=>{ clearTimeout(timer); caixa?.remove(); } };
+  btnReenviar.onclick = async ()=>{
+    caixa.querySelectorAll("button").forEach(b=> b.disabled = true);
+    const r = await reenvio.reenviar();
+    if(jaEncerrou()) return; // pergunta foi respondida durante o reenvio: não mexer em bolha antiga
+    caixa.querySelector(".fb-corrigir").disabled = false;
+    const txt = caixa.querySelector(".fb-txt");
+    if(r.ok){
+      txt.textContent = "Código reenviado ✓ — use o mais recente.";
+      contagem(); // novo cooldown antes de permitir outro reenvio (limite do backend: 3 envios/10 min)
+    }else{
+      txt.textContent = `⚠️ ${r.erro}`;
+      btnReenviar.remove(); // sem novo reenvio; corrigir continua útil (limite é por número)
+    }
+  };
+  caixa.querySelector(".fb-corrigir").onclick = ()=>{ userMsg("Corrigir número"); encerrar(reenvio.valorCorrigir); };
+  bolha.appendChild(caixa); scrollFim();
+  contagem();
+  return { cancelar: ()=>{ clearInterval(cron); caixa.remove(); } };
 }
 function botoes(lista){
   return new Promise(resolve=>{
