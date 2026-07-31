@@ -4,7 +4,12 @@
  */
 
 const crypto = require('crypto');
-const { google } = require('googleapis');
+let google = null;
+try {
+  google = require('googleapis').google;
+} catch (e) {
+  // googleapis não instalado no ambiente local
+}
 
 // Cache em memória do Vercel Serverless Instance (para OTPs e Planos)
 const memoryCache = new Map();
@@ -223,8 +228,13 @@ async function handleSendOtp(body) {
   const tel = telefoneValido(body.telefone);
   if (!tel) return { ok: false, erro: 'Telefone inválido.' };
 
+  const skipSms = getEnv('SKIP_SMS_VERIFICATION', 'true') === 'true';
   const codigo = codigoOtp();
   memoryCache.set(`otp_${tel}`, { codigo, exp: Date.now() + OTP_TTL_MS });
+
+  if (skipSms) {
+    return { ok: true, demo_codigo: `${codigo} (Qualquer código aceito)` };
+  }
 
   const apiKey = getEnv('SMS_API_KEY');
   if (!apiKey) {
@@ -242,9 +252,12 @@ async function handleVerifyOtp(body) {
 
   const codigoReq = String(body.codigo || '').replace(/\D/g, '');
   const cached = memoryCache.get(`otp_${tel}`);
+  const skipSms = getEnv('SKIP_SMS_VERIFICATION', 'true') === 'true';
 
-  if (!cached || cached.codigo !== codigoReq || Date.now() > cached.exp) {
-    return { ok: false, erro: 'Código inválido ou expirado.' };
+  if (!skipSms) {
+    if (!cached || cached.codigo !== codigoReq || Date.now() > cached.exp) {
+      return { ok: false, erro: 'Código inválido ou expirado.' };
+    }
   }
 
   const uuid = crypto.randomUUID();
@@ -336,6 +349,12 @@ module.exports = async (req, res) => {
 
   try {
     let body = req.body || {};
+    if (Buffer.isBuffer(body)) {
+      try { body = body.toString('utf8'); } catch (e) {}
+    }
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch (e) {}
+    }
     if (typeof body === 'string') {
       try { body = JSON.parse(body); } catch (e) {}
     }
