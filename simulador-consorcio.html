@@ -242,8 +242,9 @@
 const BACKEND_URL = "/api/simulador";
 const REENVIO_OTP_MS = 60000; // fallback "não recebeu o código?" aparece após 1 min sem validar
 
-// ---- Integração com o backend (Apps Script) ----
-// POST com corpo text/plain (evita preflight de CORS, que o Apps Script não responde).
+let leadUuid = null;
+let kommoLeadId = null;
+
 async function api(action, payload){
   const resp = await fetch(BACKEND_URL, { method:"POST", body: JSON.stringify({ action, ...payload }) });
   if(!resp.ok) throw new Error("HTTP " + resp.status);
@@ -251,7 +252,7 @@ async function api(action, payload){
 }
 function sincronizaLead(extra){
   if(!BACKEND_URL || !leadUuid) return;
-  api("update_lead", { uuid: leadUuid, ...extra }).catch(err=>console.warn("update_lead falhou:", err));
+  api("update_lead", { uuid: leadUuid, kommo_lead_id: kommoLeadId, nome: lead.nome, tipo: lead.tipo, ...extra }).catch(err=>console.warn("update_lead falhou:", err));
 }
 // Airtable mistura formatos numéricos ("1.234,56", "R$ 480,01", 444.78) — converte todos para Number.
 function numFlex(v){
@@ -722,7 +723,7 @@ async function fluxo(){
                                             nome: lead.nome, email: lead.email, tipo: lead.tipo,
                                             dispositivo: resumoDispositivo(), url: document.referrer || location.href });
         ok = !!r.ok;
-        if(ok) leadUuid = r.uuid; else erroVerif = r.erro || "";
+        if(ok) { leadUuid = r.uuid; kommoLeadId = r.kommo_lead_id; } else erroVerif = r.erro || "";
       }catch(err){ ok = false; }
     }else{
       ok = (cod.replace(/\D/g,"") === otpEsperado);

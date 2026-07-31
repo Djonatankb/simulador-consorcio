@@ -14,12 +14,7 @@ try {
 // Cache em memória do Vercel Serverless Instance (para OTPs e Planos)
 const memoryCache = new Map();
 
-// Configurações Padrão
-const SPREADSHEET_ID_DEFAULT = '1FeMY6hfwSix7YR_ndVVxFjcqt2D4JaPWtd38Qc4wP3k';
-const AIRTABLE_BASE_DEFAULT = 'appAXa666ayzjld9S';
-const KOMMO_SUBDOMAIN_DEFAULT = 'gustavoligavitoriacom';
-const KOMMO_STAGE_TRANSMISSAO_DEFAULT = 109093615;
-const KOMMO_PIPELINE_ID_DEFAULT = 14131759;
+const kommo = require('../lib/kommo');
 
 // Parâmetros OTP
 const OTP_MIN = 1500, OTP_RANGE = 8000;
@@ -40,101 +35,6 @@ function codigoOtp() {
   const buf = crypto.randomBytes(4);
   const num = buf.readUInt32BE(0);
   return String(OTP_MIN + (num % OTP_RANGE));
-}
-
-// Helper para chamadas à API v4 do Kommo CRM
-async function conectarKommo(endpoint, method, payload) {
-  let token = getEnv('KOMMO_TOKEN');
-  if (!token) return null;
-
-  // Sanitização do Token (remove aspas, espaços e prefixos duplicados)
-  token = token.replace(/^Bearer\s+/i, '').replace(/["']/g, '').trim();
-
-  const subdominio = getEnv('KOMMO_SUBDOMAIN', KOMMO_SUBDOMAIN_DEFAULT);
-  const url = `https://${subdominio}.kommo.com/api/v4/${endpoint.replace(/^\//, '')}`;
-
-  try {
-    const resp = await fetch(url, {
-      method: method.toUpperCase(),
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: payload ? JSON.stringify(payload) : undefined
-    });
-
-    const data = await resp.json().catch(() => ({}));
-    if (resp.ok) {
-      return data;
-    } else {
-      console.error(`Kommo API Error (${resp.status}):`, JSON.stringify(data));
-      return null;
-    }
-  } catch (err) {
-    console.error('Kommo API Exception:', err);
-    return null;
-  }
-}
-
-// Cria Lead em Triagem no Kommo CRM (2 Passos: Lead + Contato Vinculado)
-async function criarLeadKommo(nome, email, telefone, tipo) {
-  const pipelineId = Number(getEnv('KOMMO_PIPELINE_ID', KOMMO_PIPELINE_ID_DEFAULT));
-
-  // Passo 1: Criar o Lead (Negócio) na etapa Triagem
-  const payloadLead = [
-    {
-      name: `Consórcio ${tipo || 'Imóvel'} - ${nome || 'Lead'}`,
-      pipeline_id: pipelineId
-    }
-  ];
-
-  const respLead = await conectarKommo('leads', 'post', payloadLead);
-  const leadId = respLead?._embedded?.leads?.[0]?.id || respLead?.[0]?.id;
-
-  if (!leadId) {
-    console.error('Falha ao criar Lead no Kommo CRM.');
-    return null;
-  }
-
-  // Passo 2: Criar o Contato com Telefone/Email e Vincular ao Lead criado
-  try {
-    const payloadContato = [
-      {
-        name: nome || 'Cliente',
-        custom_fields_values: [
-          { field_code: 'PHONE', values: [{ value: telefone }] },
-          { field_code: 'EMAIL', values: [{ value: email }] }
-        ],
-        _embedded: {
-          leads: [{ id: leadId }]
-        }
-      }
-    ];
-
-    await conectarKommo('contacts', 'post', payloadContato);
-  } catch (errContato) {
-    console.error('Erro ao vincular contato no Kommo:', errContato);
-  }
-
-  return leadId;
-}
-
-// Atualiza Lead para Transmissão no Kommo CRM
-async function atualizarLeadKommo(leadId, valor, tipo, nomeCompleto) {
-  const stageId = Number(getEnv('KOMMO_STAGE_TRANSMISSAO', KOMMO_STAGE_TRANSMISSAO_DEFAULT));
-  const pipelineId = Number(getEnv('KOMMO_PIPELINE_ID', KOMMO_PIPELINE_ID_DEFAULT));
-
-  const payload = [
-    {
-      id: Number(leadId),
-      name: `🔥 PROPOSTA ${tipo || 'Imóvel'} - ${nomeCompleto || 'Cliente'}`,
-      price: Number(valor || 0),
-      pipeline_id: pipelineId,
-      status_id: stageId
-    }
-  ];
-
-  return await conectarKommo('leads', 'patch', payload);
 }
 
 // Envia SMS via Comtele
@@ -265,7 +165,7 @@ async function handleVerifyOtp(body) {
 
   // 1. Cria Lead em Triagem no Kommo CRM diretamente
   try {
-    kommoLeadId = await criarLeadKommo(body.nome, body.email, tel, body.tipo);
+    kommoLeadId = await kommo.criarLeadKommo(body.nome, body.email, tel, body.tipo);
   } catch (e) {
     console.error('Erro criarLeadKommo:', e);
   }
@@ -320,9 +220,10 @@ async function handleUpdateLead(body) {
   const uuid = String(body.uuid || '');
   const kommoLeadId = body.kommo_lead_id;
 
-  if (body.proposta && kommoLeadId) {
+  if (kommoLeadId && (body.valor || body.proposta)) {
     try {
-      await atualizarLeadKommo(kommoLeadId, body.valor, body.tipo, body.proposta.nome_completo);
+      const nomeCompleto = body.proposta?.nome_completo || body.nome;
+      await kommo.atualizarLeadKommo(kommoLeadId, body.valor, body.tipo, nomeCompleto);
     } catch (e) {
       console.error('Erro atualizarLeadKommo:', e);
     }
