@@ -39,8 +39,11 @@ function codigoOtp() {
 
 // Helper para chamadas à API v4 do Kommo CRM
 async function conectarKommo(endpoint, method, payload) {
-  const token = getEnv('KOMMO_TOKEN');
+  let token = getEnv('KOMMO_TOKEN');
   if (!token) return null;
+
+  // Sanitização do Token (remove aspas, espaços e prefixos duplicados)
+  token = token.replace(/^Bearer\s+/i, '').replace(/["']/g, '').trim();
 
   const subdominio = getEnv('KOMMO_SUBDOMAIN', KOMMO_SUBDOMAIN_DEFAULT);
   const url = `https://${subdominio}.kommo.com/api/v4/${endpoint.replace(/^\//, '')}`;
@@ -68,30 +71,47 @@ async function conectarKommo(endpoint, method, payload) {
   }
 }
 
-// Cria Lead em Triagem no Kommo CRM
+// Cria Lead em Triagem no Kommo CRM (2 Passos: Lead + Contato Vinculado)
 async function criarLeadKommo(nome, email, telefone, tipo) {
-  const payload = [
+  const pipelineId = Number(getEnv('KOMMO_PIPELINE_ID', KOMMO_PIPELINE_ID_DEFAULT));
+
+  // Passo 1: Criar o Lead (Negócio) na etapa Triagem
+  const payloadLead = [
     {
       name: `Consórcio ${tipo || 'Imóvel'} - ${nome || 'Lead'}`,
-      _embedded: {
-        contacts: [
-          {
-            first_name: nome || 'Cliente',
-            custom_fields_values: [
-              { field_code: 'PHONE', values: [{ value: telefone }] },
-              { field_code: 'EMAIL', values: [{ value: email }] }
-            ]
-          }
-        ]
-      }
+      pipeline_id: pipelineId
     }
   ];
 
-  const resp = await conectarKommo('leads/complex', 'post', payload);
-  if (Array.isArray(resp) && resp[0] && resp[0].id) {
-    return resp[0].id;
+  const respLead = await conectarKommo('leads', 'post', payloadLead);
+  const leadId = respLead?._embedded?.leads?.[0]?.id || respLead?.[0]?.id;
+
+  if (!leadId) {
+    console.error('Falha ao criar Lead no Kommo CRM.');
+    return null;
   }
-  return null;
+
+  // Passo 2: Criar o Contato com Telefone/Email e Vincular ao Lead criado
+  try {
+    const payloadContato = [
+      {
+        name: nome || 'Cliente',
+        custom_fields_values: [
+          { field_code: 'PHONE', values: [{ value: telefone }] },
+          { field_code: 'EMAIL', values: [{ value: email }] }
+        ],
+        _embedded: {
+          leads: [{ id: leadId }]
+        }
+      }
+    ];
+
+    await conectarKommo('contacts', 'post', payloadContato);
+  } catch (errContato) {
+    console.error('Erro ao vincular contato no Kommo:', errContato);
+  }
+
+  return leadId;
 }
 
 // Atualiza Lead para Transmissão no Kommo CRM
@@ -102,14 +122,12 @@ async function atualizarLeadKommo(leadId, valor, tipo, nomeCompleto) {
   const payload = [
     {
       id: Number(leadId),
+      name: `🔥 PROPOSTA ${tipo || 'Imóvel'} - ${nomeCompleto || 'Cliente'}`,
       price: Number(valor || 0),
       pipeline_id: pipelineId,
       status_id: stageId
     }
   ];
-  if (nomeCompleto || tipo) {
-    payload[0].name = `🔥 PROPOSTA ${tipo || 'Imóvel'} - ${nomeCompleto || 'Cliente'}`;
-  }
 
   return await conectarKommo('leads', 'patch', payload);
 }
