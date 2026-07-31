@@ -3,13 +3,14 @@
  * Google Apps Script (gratuito), publicado como Web App. A URL /exec fica em BACKEND_URL do widget.
  *
  * Grava os leads na planilha "Leads do Consórcio - Landbot", aba "Leads" — a original do Landbot,
- * com 33 colunas nomeadas na linha 1. A escrita é POR NOME DE CABEÇALHO (nunca por posição): ver
+ * com colunas nomeadas na linha 1. A escrita é POR NOME DE CABEÇALHO (nunca por posição): ver
  * a constante MAPA_COLUNAS (campo interno → cabeçalho) e os helpers indiceColunas/gravaCampos.
  * Isso deixa o código imune a reordenação de colunas na planilha. Duas colunas próprias do widget
- * (uuid_widget, status_widget) são criadas automaticamente no fim da planilha por garanteColunasWidget.
+ * (uuid_widget, status_widget, kommo_lead_id) são criadas automaticamente no fim da planilha por garanteColunasWidget.
  *
- * (Futuro: leads irão para o Salesforce; quando a integração do CRM estiver pronta, MAPA_COLUNAS é
- *  o DE-PARA a portar — trocar o corpo de verifyOtp/updateLead por uma chamada à API deles.)
+ * INTEGRAÇÃO CRM KOMMO (DIRETA E SEM N8N):
+ *   As chamadas de criação (complex) e atualização (patch) do Kommo CRM acontecem diretamente
+ *   neste backend via UrlFetchApp, salvando o ID do lead na planilha em tempo real.
  *
  * SMS: API da Comtele (developers.comtele.com.br). Segredos ficam em Propriedades do Script — nunca aqui.
  *
@@ -22,12 +23,13 @@
 const SPREADSHEET_ID = '1FeMY6hfwSix7YR_ndVVxFjcqt2D4JaPWtd38Qc4wP3k';
 const AIRTABLE_BASE = 'appAXa666ayzjld9S';
 
-// Webhooks n8n / Kommo CRM (Podem ser sobrescritos via Propriedades do Script N8N_WEBHOOK_LEAD_INICIAL e N8N_WEBHOOK_PROPOSTA)
-const N8N_WEBHOOK_LEAD_INICIAL_DEFAULT = 'https://ligavitoria-undsmj.app.n8n.cloud/webhook/simulador-lead-inicial';
-const N8N_WEBHOOK_PROPOSTA_DEFAULT = 'https://ligavitoria-undsmj.app.n8n.cloud/webhook/simulador-proposta-completa';
+// Configurações do Kommo CRM (Podem ser sobrescritas via Propriedades do Script KOMMO_TOKEN, KOMMO_SUBDOMAIN, etc.)
+const KOMMO_SUBDOMAIN_DEFAULT = 'gustavoligavitoriacom';
+const KOMMO_STAGE_TRANSMISSAO_DEFAULT = 109093615;
+const KOMMO_PIPELINE_ID_DEFAULT = 14131759;
 
 // DE-PARA campo interno → cabeçalho da aba "Leads" (linha 1). Escrita é POR NOME — imune a
-// reordenação de colunas. (Salesforce futuro: este dicionário é o mapeamento a portar p/ o CRM.)
+// reordenação de colunas.
 const MAPA_COLUNAS = {
   data:'Data', nome:'Nome', email:'Email', cpf:'CPF', telefone:'Telefone',
   tipo:'Tipo de Consórcio', valor:'Valor desejado', plano:'Código Consórcio',
@@ -36,7 +38,7 @@ const MAPA_COLUNAS = {
   nome_completo:'nome_completo', nascimento:'data_de_nascimento', rg:'rg_doc',
   orgao:'orgao_emissor', naturalidade:'naturalidade', nome_mae:'nome_completo_da_mae',
   endereco:'endereco_completo', cep:'cep',
-  uuid:'uuid_widget', status:'status_widget'   // colunas do widget, criadas no fim da planilha
+  uuid:'uuid_widget', status:'status_widget', kommo_lead_id:'kommo_lead_id'
 };
 
 // Parâmetros de OTP e anti-abuso.
@@ -46,27 +48,91 @@ const MAX_ENVIOS = 3, ENVIOS_TTL = 600;   // máx. 3 ENVIOS por número a cada 1
 const MAX_TENTATIVAS = 5;                 // máx. 5 tentativas de VERIFICAÇÃO por código (anti-brute-force)
 const PLANS_TTL = 300;                    // cache de planos por (tabela,valor) — reduz martelamento do Airtable
 
-// Despacha o payload para a URL do Webhook n8n em try/catch isolado (nunca bloqueia o Sheets nem lança erro p/ o cliente)
-function despacharWebhookN8N(url, payload) {
-  if (!url) return;
+// ---------- Integração Direta Kommo CRM API v4 ----------
+function conectarKommo(endpoint, method, payload) {
+  const token = prop('KOMMO_TOKEN');
+  if (!token) {
+    Logger.log('conectarKommo ignorado: KOMMO_TOKEN não configurado em Propriedades do Script.');
+    return null;
+  }
+  const subdominio = prop('KOMMO_SUBDOMAIN', KOMMO_SUBDOMAIN_DEFAULT);
+  const url = 'https://' + subdominio + '.kommo.com/api/v4/' + endpoint.replace(/^\//, '');
+  const opcoes = {
+    method: method.toLowerCase(),
+    contentType: 'application/json',
+    headers: { Authorization: 'Bearer ' + token },
+    muteHttpExceptions: true
+  };
+  if (payload) opcoes.payload = JSON.stringify(payload);
+
   try {
-    UrlFetchApp.fetch(url, {
-      method: 'post',
-      contentType: 'application/json',
-      payload: JSON.stringify(payload),
-      muteHttpExceptions: true
-    });
+    const resp = UrlFetchApp.fetch(url, opcoes);
+    const code = resp.getResponseCode();
+    let jsonResp = {};
+    try { jsonResp = JSON.parse(resp.getContentText()); } catch (e) {}
+    if (code >= 200 && code < 300) {
+      return jsonResp;
+    } else {
+      Logger.log('Kommo API Erro (HTTP ' + code + '): ' + resp.getContentText());
+      return null;
+    }
   } catch (err) {
-    Logger.log('despacharWebhookN8N falhou: ' + (err && err.stack ? err.stack : err));
+    Logger.log('conectarKommo exceção: ' + (err && err.stack ? err.stack : err));
+    return null;
   }
 }
 
+// Cria lead inicial na etapa de Triagem do Kommo CRM
+function criarLeadKommo(nome, email, telefone, tipo) {
+  const payload = [
+    {
+      name: 'Consórcio ' + (tipo || 'Imóvel') + ' - ' + (nome || 'Lead'),
+      _embedded: {
+        contacts: [
+          {
+            first_name: nome || 'Cliente',
+            custom_fields_values: [
+              {
+                field_code: 'PHONE',
+                values: [ { value: telefone } ]
+              },
+              {
+                field_code: 'EMAIL',
+                values: [ { value: email } ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ];
+  const resp = conectarKommo('leads/complex', 'post', payload);
+  if (resp && resp[0] && resp[0].id) {
+    return resp[0].id;
+  }
+  return null;
+}
+
+// Atualiza o lead no Kommo CRM (move para Transmissão e atualiza o valor do consórcio)
+function atualizarLeadKommo(leadId, valor, tipo, nomeCompleto) {
+  const stageId = Number(prop('KOMMO_STAGE_TRANSMISSAO', KOMMO_STAGE_TRANSMISSAO_DEFAULT));
+  const pipelineId = Number(prop('KOMMO_PIPELINE_ID', KOMMO_PIPELINE_ID_DEFAULT));
+
+  const payload = [
+    {
+      id: Number(leadId),
+      price: Number(valor || 0),
+      pipeline_id: pipelineId,
+      status_id: stageId
+    }
+  ];
+  if (nomeCompleto || tipo) {
+    payload[0].name = '🔥 PROPOSTA ' + (tipo || 'Imóvel') + ' - ' + (nomeCompleto || 'Cliente');
+  }
+  return conectarKommo('leads', 'patch', payload);
+}
+
 // ---------- Segredos: Propriedades do Script (nunca no código-fonte) ----------
-// Apps Script → ⚙ Configurações do projeto → Propriedades do script:
-//   SMS_API_KEY    → x-api-key da Comtele (portal developers.comtele.com.br → "Sua Chave de API")
-//   SMS_ROUTE      → rota de envio da Comtele (opcional; padrão "17")
-//   AIRTABLE_TOKEN → Personal Access Token do Airtable (escopo data.records:read)
-// Enquanto SMS_API_KEY estiver vazia, o backend roda em MODO TESTE (devolve o código na resposta, sem custo).
 function prop(nome, padrao) {
   const v = PropertiesService.getScriptProperties().getProperty(nome);
   return (v === null || v === '') ? (padrao === undefined ? '' : padrao) : v;
@@ -77,33 +143,27 @@ function json(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
-// Telefone válido = 10–11 dígitos (DDD + número), já sem country code. Retorna '' se inválido.
 function telefoneValido(v) {
   const tel = String(v == null ? '' : v).replace(/\D/g, '');
   return /^\d{10,11}$/.test(tel) ? tel : '';
 }
 
-// Neutraliza injeção de fórmula/CSV na planilha: prefixa apóstrofo se o texto começa com =,+,-,@,TAB,CR.
 function sane(v) {
   const s = (v == null) ? '' : String(v);
   return /^[=+\-@\t\r]/.test(s) ? "'" + s : s;
 }
 function numOuSane(v) { return (typeof v === 'number') ? v : sane(v); }
 
-// Código OTP com entropia melhor que Math.random(): derivado de um UUID v4, na mesma faixa do Landbot.
 function codigoOtp() {
   const hex = Utilities.getUuid().replace(/-/g, '').slice(0, 8);
   return String(OTP_MIN + (parseInt(hex, 16) % OTP_RANGE));
 }
 
-// Envia o SMS pela API da Comtele (POST https://api.comtele.com.br/messages/sms/send, header x-api-key,
-// corpo {receivers, message, route}). Valida hasError; em falha, lança erro (o roteador mascara p/ o cliente
-// e o detalhe vai só para o Logger).
 function enviarSMS(telefone, texto) {
   const apiKey = prop('SMS_API_KEY');
   if (!apiKey) throw new Error('SMS_API_KEY não configurada nas Propriedades do Script.');
   let n = String(telefone).replace(/\D/g, '');
-  if (n.length <= 11) n = '55' + n; // widget envia DDD+número; prefixa o país sem duplicar o 55
+  if (n.length <= 11) n = '55' + n;
   const resp = UrlFetchApp.fetch('https://api.comtele.com.br/messages/sms/send', {
     method: 'post',
     contentType: 'application/json',
@@ -113,14 +173,13 @@ function enviarSMS(telefone, texto) {
   });
   const httpCode = resp.getResponseCode();
   let corpo = {};
-  try { corpo = JSON.parse(resp.getContentText()); } catch (e) { /* resposta não-JSON */ }
+  try { corpo = JSON.parse(resp.getContentText()); } catch (e) { }
   if (httpCode !== 200 || corpo.hasError !== false) {
     throw new Error('Comtele recusou o envio (HTTP ' + httpCode + '): ' + (corpo.message || resp.getContentText()));
   }
 }
 
 // ---------- Roteador ----------
-// Health-check: abrir a URL /exec no navegador deve mostrar esta mensagem.
 function doGet() {
   return ContentService.createTextOutput('Backend do Simulador de Consórcio ativo ✓')
     .setMimeType(ContentService.MimeType.TEXT);
@@ -135,13 +194,12 @@ function doPost(e) {
     if (typeof fn !== 'function') return json({ ok: false, erro: 'Requisição inválida.' });
     return json(fn(req));
   } catch (err) {
-    // Nunca devolver o erro interno ao cliente — detalhe só no log do servidor.
     Logger.log('doPost erro: ' + (err && err.stack ? err.stack : err));
     return json({ ok: false, erro: 'Não foi possível processar agora. Tente novamente.' });
   }
 }
 
-// ---------- OTP ----------
+// ---------- OTP & Gravação Inicial ----------
 function sendOtp(req) {
   const tel = telefoneValido(req && req.telefone);
   if (!tel) return { ok: false, erro: 'Telefone inválido.' };
@@ -151,9 +209,8 @@ function sendOtp(req) {
   const codigo = codigoOtp();
   cache.put('otp_' + tel, codigo, OTP_TTL);
   cache.put('cnt_' + tel, String(enviados + 1), ENVIOS_TTL);
-  cache.remove('try_' + tel); // novo código zera o contador de tentativas de verificação
+  cache.remove('try_' + tel);
   if (!prop('SMS_API_KEY')) {
-    // MODO TESTE (SMS_API_KEY vazia): devolve o código na resposta; o widget o exibe como "SMS simulado".
     return { ok: true, demo_codigo: codigo };
   }
   enviarSMS(tel, 'Liga Vitoria Consorcio: seu codigo de verificacao e ' + codigo + '. Valido por 5 min. Nao compartilhe.');
@@ -165,19 +222,27 @@ function verifyOtp(req) {
   if (!tel) return { ok: false };
   const codigo = String((req && req.codigo) || '').replace(/\D/g, '');
   const cache = CacheService.getScriptCache();
-  // Anti-brute-force: limita as TENTATIVAS de verificação por código (o limite de envio é separado).
   const tentativas = Number(cache.get('try_' + tel) || 0);
   if (tentativas >= MAX_TENTATIVAS) {
-    cache.remove('otp_' + tel); // invalida o código: obriga a solicitar um novo
+    cache.remove('otp_' + tel);
     return { ok: false, erro: 'Muitas tentativas. Solicite um novo codigo.' };
   }
   if (!codigo || cache.get('otp_' + tel) !== codigo) {
     cache.put('try_' + tel, String(tentativas + 1), OTP_TTL);
     return { ok: false };
   }
-  // Número verificado → grava o lead (nome + telefone verificado). Campos de texto passam por sane().
-  // Trava a linha contra corrida de dois leads simultâneos (dois getLastRow() lendo a mesma linha).
+
   const uuid = Utilities.getUuid();
+  let kommoLeadId = null;
+
+  // 1. Criar Lead no Kommo CRM diretamente
+  try {
+    kommoLeadId = criarLeadKommo(req.nome, req.email, tel, req.tipo);
+  } catch (errKommo) {
+    Logger.log('Erro ao criar lead no Kommo: ' + errKommo);
+  }
+
+  // 2. Gravar Lead na Planilha Google Sheets
   const lock = LockService.getScriptLock();
   lock.waitLock(5000);
   try {
@@ -186,33 +251,15 @@ function verifyOtp(req) {
     const linha = aba.getLastRow() + 1;
     gravaCampos(aba, linha, { data: new Date(), nome: sane(req.nome), email: sane(req.email),
       telefone: tel, tipo: sane(req.tipo), dispositivo: sane(req.dispositivo), url: sane(req.url),
-      uuid: uuid, status: 'lead verificado' });
+      uuid: uuid, status: 'lead verificado', kommo_lead_id: kommoLeadId });
   } finally { lock.releaseLock(); }
 
-  // Despacha webhook para a Frente 1: Lead Inicial (SMS verificado)
-  const urlInicial = prop('N8N_WEBHOOK_LEAD_INICIAL', N8N_WEBHOOK_LEAD_INICIAL_DEFAULT);
-  despacharWebhookN8N(urlInicial, {
-    evento: 'lead_inicial',
-    timestamp: new Date().toISOString(),
-    uuid: uuid,
-    lead: {
-      nome: req.nome,
-      email: req.email,
-      telefone: tel,
-      tipo: req.tipo,
-      dispositivo: req.dispositivo,
-      url: req.url
-    }
-  });
-
-  // OTP só é invalidado APÓS a gravação: se o Sheets/lock falhar, o código segue válido (TTL 5min)
-  // e o usuário repete a verificação sem precisar de novo SMS.
   cache.remove('otp_' + tel);
   cache.remove('try_' + tel);
   return { ok: true, uuid: uuid };
 }
 
-// ---------- Planos (Airtable "Tabela de Preços") ----------
+// ---------- Planos (Airtable) ----------
 function getPlans(req) {
   const valor = Number(req && req.valor);
   if (!(valor > 0)) return { ok: false, erro: 'Valor inválido.' };
@@ -222,7 +269,7 @@ function getPlans(req) {
   const chaveCache = 'plans_' + tabela + '_' + Math.round(valor);
   const emCache = cache.get(chaveCache);
   if (emCache) return { ok: true, planos: JSON.parse(emCache) };
-  // valor é Number (validado) → sem risco de injeção na fórmula. Mesma faixa ±10% (fallback ±20%) do Landbot.
+
   const filtro = function (faixa) {
     return 'AND((' + valor + '*' + (1 + faixa) + ')>{Credito},(' + valor + '*' + (1 - faixa) + ')<{Credito})';
   };
@@ -239,26 +286,7 @@ function getPlans(req) {
   return { ok: true, planos: planos };
 }
 
-// Alternativa NÃO USADA (não é chamada pelo roteador): ler os planos da aba "Planos" da própria planilha,
-// caso um dia se queira dispensar o Airtable. Mantida como referência para o time comercial.
-function getPlansDaPlanilha(req) {
-  const valor = Number(req.valor);
-  const linhas = planilha().getSheetByName('Planos').getDataRange().getValues();
-  const cab = linhas.shift();
-  const todos = linhas.map(function (l) { const o = {}; cab.forEach(function (c, i) { o[c] = l[i]; }); return o; });
-  const busca = function (faixa) {
-    return todos.filter(function (p) {
-      return String(p.tipo).toLowerCase() === String(req.tipo).toLowerCase() &&
-             p.credito > valor * (1 - faixa) && p.credito < valor * (1 + faixa);
-    });
-  };
-  let planos = busca(0.10);
-  if (!planos.length) planos = busca(0.20);
-  planos.sort(function (a, b) { return a.credito - b.credito; });
-  return { ok: true, planos: planos.slice(0, 12) };
-}
-
-// ---------- Atualização do lead (valor, plano escolhido, proposta) ----------
+// ---------- Atualização do lead (proposta completa) ----------
 function updateLead(req) {
   const uuid = String((req && req.uuid) || '');
   if (!/^[0-9a-f-]{36}$/i.test(uuid)) return { ok: false, erro: 'lead não encontrado' };
@@ -267,6 +295,8 @@ function updateLead(req) {
   if (!indice.uuid) return { ok: false, erro: 'lead não encontrado' };
   const dados = aba.getDataRange().getValues();
   const colUuid = indice.uuid - 1;
+  const colKommoId = indice.kommo_lead_id ? indice.kommo_lead_id - 1 : -1;
+
   for (let i = dados.length - 1; i >= 1; i--) {
     if (dados[i][colUuid] !== uuid) continue;
     const linha = i + 1;
@@ -275,42 +305,21 @@ function updateLead(req) {
       credito: numOuSane(req.credito), parcela: numOuSane(req.parcela), pontos: numOuSane(req.pontos),
       status: sane(req.status)
     };
-    // Proposta com dados sensíveis (CPF, RG, endereço) — agora em colunas nomeadas, não mais um JSON
-    // numa célula só. LGPD: mesma cautela de sempre — restrinja compartilhamento e defina retenção.
+
+    let kommoLeadId = colKommoId >= 0 ? dados[i][colKommoId] : null;
+
     if (req.proposta) {
       ['nome_completo', 'cpf', 'nascimento', 'rg', 'orgao', 'naturalidade', 'nome_mae', 'endereco', 'cep']
         .forEach(function (campo) { campos[campo] = sane(req.proposta[campo]); });
 
-      // Despacha webhook para a Frente 2: Proposta Completa (Cadastro finalizado)
-      const urlProposta = prop('N8N_WEBHOOK_PROPOSTA', N8N_WEBHOOK_PROPOSTA_DEFAULT);
-      despacharWebhookN8N(urlProposta, {
-        evento: 'proposta_completa',
-        timestamp: new Date().toISOString(),
-        uuid: uuid,
-        lead: {
-          nome: req.proposta.nome_completo || (indice.nome ? dados[i][indice.nome - 1] : ''),
-          email: indice.email ? dados[i][indice.email - 1] : '',
-          telefone: indice.telefone ? dados[i][indice.telefone - 1] : '',
-          tipo: indice.tipo ? dados[i][indice.tipo - 1] : '',
-          valor: req.valor,
-          plano: req.plano,
-          credito: req.credito,
-          parcela: req.parcela,
-          descricao: req.descricao,
-          pontos: req.pontos,
-          proposta: {
-            nome_completo: req.proposta.nome_completo,
-            cpf: req.proposta.cpf,
-            nascimento: req.proposta.nascimento,
-            rg: req.proposta.rg,
-            orgao: req.proposta.orgao,
-            naturalidade: req.proposta.naturalidade,
-            nome_mae: req.proposta.nome_mae,
-            endereco: req.proposta.endereco,
-            cep: req.proposta.cep
-          }
+      // Atualiza no Kommo CRM se o ID estiver salvo
+      if (kommoLeadId) {
+        try {
+          atualizarLeadKommo(kommoLeadId, req.valor, req.tipo || (indice.tipo ? dados[i][indice.tipo - 1] : ''), req.proposta.nome_completo);
+        } catch (errKommo) {
+          Logger.log('Erro ao atualizar lead no Kommo: ' + errKommo);
         }
-      });
+      }
     }
     gravaCampos(aba, linha, campos);
     return { ok: true };
@@ -318,35 +327,18 @@ function updateLead(req) {
   return { ok: false, erro: 'lead não encontrado' };
 }
 
-// ---------- Migração one-off ----------
-// Corrige as linhas gravadas com o layout antigo (por posição, 13 colunas) para o mapeamento por
-// nome de cabeçalho (MAPA_COLUNAS). RODAR UMA VEZ MANUALMENTE no editor do Apps Script (selecionar
-// esta função na barra de execução → Executar) e depois pode remover. Não é chamada pelo roteador.
-function migrarLinhasDescasadas() {
-  const LINHA_INICIO = 10605, LINHA_FIM = 10610; // faixa das linhas descasadas nesta planilha
-  const aba = abaLeads();
-  garanteColunasWidget(aba);
-  for (let linha = LINHA_INICIO; linha <= LINHA_FIM; linha++) {
-    // Layout antigo: created, nome, email, telefone, verificado, tipo, valor, plano, credito,
-    // parcela, status, uuid, proposta (JSON).
-    const antigas = aba.getRange(linha, 1, 1, 13).getValues()[0];
-    const created = antigas[0], nome = antigas[1], email = antigas[2], telefone = antigas[3],
-          tipo = antigas[5], valor = antigas[6], plano = antigas[7], credito = antigas[8],
-          parcela = antigas[9], status = antigas[10], uuid = antigas[11], propostaRaw = antigas[12];
-    aba.getRange(linha, 1, 1, 13).clearContent();
-    const campos = {
-      data: created, nome: sane(nome), email: sane(email), telefone: sane(telefone), tipo: sane(tipo),
-      valor: numOuSane(valor), plano: sane(plano), credito: numOuSane(credito), parcela: numOuSane(parcela),
-      status: sane(status), uuid: sane(uuid)
-    };
-    if (propostaRaw) {
-      try {
-        const proposta = JSON.parse(propostaRaw);
-        ['nome_completo', 'cpf', 'nascimento', 'rg', 'orgao', 'naturalidade', 'nome_mae', 'endereco', 'cep']
-          .forEach(function (campo) { campos[campo] = sane(proposta[campo]); });
-      } catch (e) { /* célula 13 não era JSON válido — ignora, migra só o que dá */ }
-    }
-    gravaCampos(aba, linha, campos);
+// ---------- Função de Teste Manual (Roda com 1 Clique no Apps Script) ----------
+function testarIntegracaoKommo() {
+  Logger.log('--- 1. Criando Lead de Teste no Kommo ---');
+  const leadId = criarLeadKommo('Teste Manual Apps Script', 'teste.manual@ligavitoria.com.br', '27999880011', 'Imóvel');
+  Logger.log('ID do Lead criado no Kommo: ' + leadId);
+
+  if (leadId) {
+    Logger.log('--- 2. Atualizando Lead para Transmissão ---');
+    const respPatch = atualizarLeadKommo(leadId, 1500000, 'Imóvel', 'Teste Manual Apps Script Completo');
+    Logger.log('Resposta do Patch no Kommo: ' + JSON.stringify(respPatch));
+  } else {
+    Logger.log('Atenção: Configure a propriedade KOMMO_TOKEN em Propriedades do Script para testar.');
   }
 }
 
@@ -354,44 +346,26 @@ function migrarLinhasDescasadas() {
 function planilha() { return SpreadsheetApp.openById(SPREADSHEET_ID); }
 function abaLeads() { return planilha().getSheetByName('Leads'); }
 
-// Garante que a aba tenha as colunas do widget (uuid_widget/status_widget); cria as que faltarem
-// logo após o último cabeçalho existente, sem mexer no layout original do Landbot.
 function garanteColunasWidget(aba) {
   const ultimaCol = aba.getLastColumn();
   const cabecalhos = aba.getRange(1, 1, 1, ultimaCol).getValues()[0];
-  const faltando = ['uuid_widget', 'status_widget'].filter(function (nome) {
+  const faltando = ['uuid_widget', 'status_widget', 'kommo_lead_id'].filter(function (nome) {
     return cabecalhos.indexOf(nome) === -1;
   });
   faltando.forEach(function (nome, i) { aba.getRange(1, ultimaCol + 1 + i).setValue(nome); });
 }
 
-// Lê a linha 1 e devolve {campoInterno: coluna(1-based)} para cada entrada de MAPA_COLUNAS
-// encontrada no cabeçalho (ignora as ausentes).
 function indiceColunas(aba) {
   const ultimaCol = aba.getLastColumn();
   const cabecalhos = aba.getRange(1, 1, 1, ultimaCol).getValues()[0];
   const indice = {};
   Object.keys(MAPA_COLUNAS).forEach(function (campo) {
-    const col = cabecalhos.indexOf(MAPA_COLUNAS[campo]) + 1; // indexOf -1 (ausente) vira col 0
+    const col = cabecalhos.indexOf(MAPA_COLUNAS[campo]) + 1;
     if (col > 0) indice[campo] = col;
   });
-  // Cabeçalho renomeado/divergente = campo que deixaria de ser gravado em silêncio — deixa rastro no log.
-  const ausentes = Object.keys(MAPA_COLUNAS).filter(function (campo) { return !indice[campo]; });
-  if (ausentes.length) Logger.log('indiceColunas: sem coluna na planilha para: ' + ausentes.join(', '));
   return indice;
 }
 
-// Diagnóstico manual (rodar no editor do Apps Script após qualquer mudança na planilha):
-// lista os campos de MAPA_COLUNAS sem coluna correspondente na linha 1. Vazio = DE-PARA íntegro.
-function diagnosticoColunas() {
-  const indice = indiceColunas(abaLeads());
-  const ausentes = Object.keys(MAPA_COLUNAS).filter(function (c) { return !indice[c]; });
-  Logger.log(ausentes.length ? 'AUSENTES: ' + ausentes.join(', ') : 'OK — todos os cabeçalhos casam.');
-  return ausentes;
-}
-
-// Grava {campoInterno: valor} nas colunas correspondentes (por nome de cabeçalho), pulando
-// valores undefined/''. Uma leitura de cabeçalho por chamada — aceitável no volume deste backend.
 function gravaCampos(aba, linha, campos) {
   const indice = indiceColunas(aba);
   Object.keys(campos).forEach(function (campo) {

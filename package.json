@@ -1,0 +1,13 @@
+{
+  "name": "simulador-consorcio-backend",
+  "version": "1.0.0",
+  "description": "Backend Serverless Vercel para o Simulador de Consórcio Liga Vitória",
+  "main": "api/simulador.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "node api/simulador.js"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}
