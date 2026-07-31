@@ -22,6 +22,10 @@
 const SPREADSHEET_ID = '1FeMY6hfwSix7YR_ndVVxFjcqt2D4JaPWtd38Qc4wP3k';
 const AIRTABLE_BASE = 'appAXa666ayzjld9S';
 
+// Webhooks n8n / Kommo CRM (Podem ser sobrescritos via Propriedades do Script N8N_WEBHOOK_LEAD_INICIAL e N8N_WEBHOOK_PROPOSTA)
+const N8N_WEBHOOK_LEAD_INICIAL_DEFAULT = 'https://ligavitoria-undsmj.app.n8n.cloud/webhook/simulador-lead-inicial';
+const N8N_WEBHOOK_PROPOSTA_DEFAULT = 'https://ligavitoria-undsmj.app.n8n.cloud/webhook/simulador-proposta-completa';
+
 // DE-PARA campo interno → cabeçalho da aba "Leads" (linha 1). Escrita é POR NOME — imune a
 // reordenação de colunas. (Salesforce futuro: este dicionário é o mapeamento a portar p/ o CRM.)
 const MAPA_COLUNAS = {
@@ -41,6 +45,21 @@ const OTP_TTL = 300;                      // código válido por 5 min
 const MAX_ENVIOS = 3, ENVIOS_TTL = 600;   // máx. 3 ENVIOS por número a cada 10 min
 const MAX_TENTATIVAS = 5;                 // máx. 5 tentativas de VERIFICAÇÃO por código (anti-brute-force)
 const PLANS_TTL = 300;                    // cache de planos por (tabela,valor) — reduz martelamento do Airtable
+
+// Despacha o payload para a URL do Webhook n8n em try/catch isolado (nunca bloqueia o Sheets nem lança erro p/ o cliente)
+function despacharWebhookN8N(url, payload) {
+  if (!url) return;
+  try {
+    UrlFetchApp.fetch(url, {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    });
+  } catch (err) {
+    Logger.log('despacharWebhookN8N falhou: ' + (err && err.stack ? err.stack : err));
+  }
+}
 
 // ---------- Segredos: Propriedades do Script (nunca no código-fonte) ----------
 // Apps Script → ⚙ Configurações do projeto → Propriedades do script:
@@ -169,6 +188,23 @@ function verifyOtp(req) {
       telefone: tel, tipo: sane(req.tipo), dispositivo: sane(req.dispositivo), url: sane(req.url),
       uuid: uuid, status: 'lead verificado' });
   } finally { lock.releaseLock(); }
+
+  // Despacha webhook para a Frente 1: Lead Inicial (SMS verificado)
+  const urlInicial = prop('N8N_WEBHOOK_LEAD_INICIAL', N8N_WEBHOOK_LEAD_INICIAL_DEFAULT);
+  despacharWebhookN8N(urlInicial, {
+    evento: 'lead_inicial',
+    timestamp: new Date().toISOString(),
+    uuid: uuid,
+    lead: {
+      nome: req.nome,
+      email: req.email,
+      telefone: tel,
+      tipo: req.tipo,
+      dispositivo: req.dispositivo,
+      url: req.url
+    }
+  });
+
   // OTP só é invalidado APÓS a gravação: se o Sheets/lock falhar, o código segue válido (TTL 5min)
   // e o usuário repete a verificação sem precisar de novo SMS.
   cache.remove('otp_' + tel);
@@ -244,6 +280,37 @@ function updateLead(req) {
     if (req.proposta) {
       ['nome_completo', 'cpf', 'nascimento', 'rg', 'orgao', 'naturalidade', 'nome_mae', 'endereco', 'cep']
         .forEach(function (campo) { campos[campo] = sane(req.proposta[campo]); });
+
+      // Despacha webhook para a Frente 2: Proposta Completa (Cadastro finalizado)
+      const urlProposta = prop('N8N_WEBHOOK_PROPOSTA', N8N_WEBHOOK_PROPOSTA_DEFAULT);
+      despacharWebhookN8N(urlProposta, {
+        evento: 'proposta_completa',
+        timestamp: new Date().toISOString(),
+        uuid: uuid,
+        lead: {
+          nome: req.proposta.nome_completo || (indice.nome ? dados[i][indice.nome - 1] : ''),
+          email: indice.email ? dados[i][indice.email - 1] : '',
+          telefone: indice.telefone ? dados[i][indice.telefone - 1] : '',
+          tipo: indice.tipo ? dados[i][indice.tipo - 1] : '',
+          valor: req.valor,
+          plano: req.plano,
+          credito: req.credito,
+          parcela: req.parcela,
+          descricao: req.descricao,
+          pontos: req.pontos,
+          proposta: {
+            nome_completo: req.proposta.nome_completo,
+            cpf: req.proposta.cpf,
+            nascimento: req.proposta.nascimento,
+            rg: req.proposta.rg,
+            orgao: req.proposta.orgao,
+            naturalidade: req.proposta.naturalidade,
+            nome_mae: req.proposta.nome_mae,
+            endereco: req.proposta.endereco,
+            cep: req.proposta.cep
+          }
+        }
+      });
     }
     gravaCampos(aba, linha, campos);
     return { ok: true };
