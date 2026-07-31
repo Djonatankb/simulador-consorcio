@@ -2,6 +2,18 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/simulador-consorcio.html"
+    },
+    {
+      "source": "/simulador-consorcio",
+      "destination": "/simulador-consorcio.html"
+    },
+    {
+      "source": "/simulador-consorcio/",
+      "destination": "/simulador-consorcio.html"
+    },
+    {
       "source": "/api/(.*)",
       "destination": "/api/$1"
     }
