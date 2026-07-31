@@ -163,11 +163,11 @@ async function handleVerifyOtp(body) {
   const uuid = crypto.randomUUID();
   let kommoLeadId = null;
 
-  // 1. Cria Lead em Triagem no Kommo CRM diretamente
+  // 1. Busca por telefone existente ou cria Lead em Triagem no Kommo CRM
   try {
-    kommoLeadId = await kommo.criarLeadKommo(body.nome, body.email, tel, body.tipo);
+    kommoLeadId = await kommo.buscarOuCriarLeadKommo(body.nome, body.email, tel, body.tipo);
   } catch (e) {
-    console.error('Erro criarLeadKommo:', e);
+    console.error('Erro buscarOuCriarLeadKommo:', e);
   }
 
   // 2. Grava no Google Sheets (se configurado)
@@ -219,13 +219,15 @@ async function handleGetPlans(body) {
 async function handleUpdateLead(body) {
   const uuid = String(body.uuid || '');
   const kommoLeadId = body.kommo_lead_id;
+  const status = body.status;
 
-  if (kommoLeadId && (body.valor || body.proposta)) {
+  // SOMENTE move para Transmissão no Kommo CRM se o usuário preencheu a Proposta Completa!
+  if (kommoLeadId && status === 'proposta enviada' && body.proposta) {
     try {
-      const nomeCompleto = body.proposta?.nome_completo || body.nome;
+      const nomeCompleto = body.proposta.nome_completo || body.nome;
       await kommo.atualizarLeadKommo(kommoLeadId, body.valor, body.tipo, nomeCompleto);
     } catch (e) {
-      console.error('Erro atualizarLeadKommo:', e);
+      console.error('Erro ao mover lead para Transmissão no Kommo:', e);
     }
   }
 
