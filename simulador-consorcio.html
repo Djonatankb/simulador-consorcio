@@ -252,7 +252,23 @@ async function api(action, payload){
 }
 function sincronizaLead(extra){
   if(!BACKEND_URL || !leadUuid) return;
-  api("update_lead", { uuid: leadUuid, kommo_lead_id: kommoLeadId, nome: lead.nome, tipo: lead.tipo, ...extra }).catch(err=>console.warn("update_lead falhou:", err));
+  api("update_lead", {
+    uuid: leadUuid,
+    kommo_lead_id: kommoLeadId,
+    nome: lead.nome,
+    email: lead.email,
+    telefone: lead.telefone,
+    tipo: lead.tipo,
+    valor: lead.valor,
+    plano: lead.plano,
+    credito: lead.credito,
+    parcela: lead.parcela,
+    descricao: lead.descricao,
+    pontos: lead.pontos,
+    dispositivo: typeof resumoDispositivo === "function" ? resumoDispositivo() : "",
+    url: window.location.href,
+    ...extra
+  }).catch(err=>console.warn("update_lead falhou:", err));
 }
 // Airtable mistura formatos numéricos ("1.234,56", "R$ 480,01", 444.78) — converte todos para Number.
 function numFlex(v){
