@@ -238,12 +238,44 @@ async function handleUpdateLead(body) {
   const kommoLeadId = body.kommo_lead_id;
   const status = body.status;
 
-  // SOMENTE move para Transmissão no Kommo CRM se o usuário preencheu a Proposta Completa!
+  // SOMENTE move para Transmissão no Kommo CRM e grava no Google Sheets se o usuário preencheu a Proposta Completa!
   if (kommoLeadId && status === 'proposta enviada' && body.proposta) {
     try {
       await kommo.atualizarLeadKommo(kommoLeadId, body.valor);
     } catch (e) {
       console.error('Erro ao mover lead para Transmissão no Kommo:', e);
+    }
+
+    try {
+      const p = body.proposta || {};
+      await gravarGoogleSheets({
+        nome: body.nome || p.nome_completo,
+        email: body.email,
+        cpf: p.cpf,
+        telefone: body.telefone,
+        tipo: body.tipo,
+        valor: body.valor,
+        plano: body.plano,
+        descricao: body.descricao,
+        credito: body.credito,
+        parcela: body.parcela,
+        pontos: body.pontos,
+        dispositivo: body.dispositivo,
+        url: body.url,
+        nome_completo: p.nome_completo,
+        nascimento: p.nascimento,
+        rg: p.rg,
+        orgao: p.orgao,
+        naturalidade: p.naturalidade,
+        nome_mae: p.nome_mae,
+        endereco: p.endereco,
+        cep: p.cep,
+        uuid: uuid,
+        status: 'proposta enviada',
+        kommo_lead_id: kommoLeadId
+      });
+    } catch (eSheets) {
+      console.error('Erro ao gravar proposta no Google Sheets:', eSheets);
     }
   }
 
