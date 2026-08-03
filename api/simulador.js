@@ -253,25 +253,40 @@ function formatarDataBR(d = new Date()) {
   }
 }
 
+// Map para controle de Rate Limit de envio de SMS por telefone (cooldown de 60s)
+const smsCooldownMap = new Map();
+
 // Handlers das Ações
 async function handleSendOtp(body) {
   const tel = telefoneValido(body.telefone);
   if (!tel) return { ok: false, erro: 'Telefone inválido.' };
+
+  const agora = Date.now();
+  const ultimoEnvio = smsCooldownMap.get(tel) || 0;
+  const SEGUNDOS_COOLDOWN = 60;
+
+  if (agora - ultimoEnvio < SEGUNDOS_COOLDOWN * 1000) {
+    const esperaResta = Math.ceil((SEGUNDOS_COOLDOWN * 1000 - (agora - ultimoEnvio)) / 1000);
+    return { ok: false, erro: `Aguarde ${esperaResta}s para solicitar um novo código por SMS.` };
+  }
 
   const skipSms = getEnv('SKIP_SMS_VERIFICATION', 'true') === 'true';
   const codigo = codigoOtp();
   memoryCache.set(`otp_${tel}`, { codigo, exp: Date.now() + OTP_TTL_MS });
 
   if (skipSms) {
+    smsCooldownMap.set(tel, agora);
     return { ok: true, demo_codigo: `${codigo} (Qualquer código aceito)` };
   }
 
   const apiKey = getEnv('SMS_API_KEY');
   if (!apiKey) {
     // MODO TESTE (Dev/Demo sem chave SMS)
+    smsCooldownMap.set(tel, agora);
     return { ok: true, demo_codigo: codigo };
   }
 
+  smsCooldownMap.set(tel, agora);
   await enviarSMS(tel, `Liga Vitoria Consorcio: seu codigo de verificacao e ${codigo}. Valido por 5 min.`);
   return { ok: true };
 }
