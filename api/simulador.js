@@ -224,8 +224,7 @@ async function handleUpdateLead(body) {
   // SOMENTE move para Transmissão no Kommo CRM se o usuário preencheu a Proposta Completa!
   if (kommoLeadId && status === 'proposta enviada' && body.proposta) {
     try {
-      const nomeCompleto = body.proposta.nome_completo || body.nome;
-      await kommo.atualizarLeadKommo(kommoLeadId, body.valor, body.tipo, nomeCompleto);
+      await kommo.atualizarLeadKommo(kommoLeadId, body.valor);
     } catch (e) {
       console.error('Erro ao mover lead para Transmissão no Kommo:', e);
     }
