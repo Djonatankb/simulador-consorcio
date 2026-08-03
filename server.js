@@ -64,8 +64,9 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Roteamento de Arquivos Estáticos (simulador-consorcio.html na raiz)
-  let filePath = path.join(__dirname, pathname === '/' ? 'simulador-consorcio.html' : pathname);
+  // Roteamento de Arquivos Estáticos (/ e /simulador-consorcio)
+  const isRoot = pathname === '/' || pathname === '/simulador-consorcio' || pathname === '/simulador-consorcio/';
+  let filePath = path.join(__dirname, isRoot ? 'simulador-consorcio.html' : pathname);
 
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
     filePath = path.join(__dirname, 'simulador-consorcio.html');
@@ -88,7 +89,7 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log(`\n==================================================`);
   console.log(`🚀 Simulador de Consórcio rodando em Localhost!`);
-  console.log(`👉 Abra no seu navegador: http://localhost:${PORT}`);
+  console.log(`👉 Abra no seu navegador: http://localhost:${PORT}/simulador-consorcio`);
   console.log(`⚡ Modo Bypass SMS Ativado (SKIP_SMS_VERIFICATION=true)`);
   console.log(`==================================================\n`);
 });
