@@ -32,6 +32,12 @@ const server = http.createServer(async (req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = parsedUrl.pathname;
 
+  // Redirecionamento da raiz / para /simulador-consorcio
+  if (pathname === '/') {
+    res.writeHead(302, { Location: '/simulador-consorcio' });
+    return res.end();
+  }
+
   // Rota da Serverless Function /api/simulador
   if (pathname.startsWith('/api/simulador')) {
     let bodyChunks = [];
@@ -64,9 +70,9 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // Roteamento de Arquivos Estáticos (/ e /simulador-consorcio)
-  const isRoot = pathname === '/' || pathname === '/simulador-consorcio' || pathname === '/simulador-consorcio/';
-  let filePath = path.join(__dirname, isRoot ? 'simulador-consorcio.html' : pathname);
+  // Roteamento de Arquivos Estáticos (/simulador-consorcio)
+  const isSimuladorPath = pathname === '/simulador-consorcio' || pathname === '/simulador-consorcio/';
+  let filePath = path.join(__dirname, isSimuladorPath ? 'simulador-consorcio.html' : pathname);
 
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
     filePath = path.join(__dirname, 'simulador-consorcio.html');

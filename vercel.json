@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
-      "destination": "/simulador-consorcio.html"
-    },
+      "destination": "/simulador-consorcio",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
     {
       "source": "/simulador-consorcio",
       "destination": "/simulador-consorcio.html"
