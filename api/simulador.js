@@ -136,9 +136,17 @@ async function gravarGoogleSheets(camposLinha) {
       console.warn('Não foi possível ler os cabeçalhos do Google Sheets:', eH?.message);
     }
 
+function formatarDataBR(d = new Date()) {
+  const date = new Date(d);
+  const dia = String(date.getDate()).padStart(2, '0');
+  const mes = String(date.getMonth() + 1).padStart(2, '0');
+  const ano = date.getFullYear();
+  return `${dia}/${mes}/${ano}`;
+}
+
     // Mapa de dados disponíveis para a linha
     const mapaValores = {
-      'Data': new Date().toISOString(),
+      'Data': formatarDataBR(),
       'Nome': camposLinha.nome || '',
       'Email': camposLinha.email || '',
       'CPF': camposLinha.cpf || '',
