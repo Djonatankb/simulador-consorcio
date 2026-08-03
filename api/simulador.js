@@ -67,7 +67,34 @@ async function enviarSMS(telefone, texto) {
   }
 }
 
-// Gravação e Atualização no Google Sheets
+const MAPA_COLUNAS = {
+  data: 'Data',
+  nome: 'Nome',
+  email: 'Email',
+  cpf: 'CPF',
+  telefone: 'Telefone',
+  tipo: 'Tipo de Consórcio',
+  valor: 'Valor desejado',
+  plano: 'Código Consórcio',
+  descricao: 'Descrição Consórcio',
+  credito: 'Valor Consórcio',
+  parcela: 'Parcela Consórcio',
+  pontos: 'Pontos Livelo',
+  dispositivo: 'Dispositivo',
+  url: 'URL',
+  nome_completo: 'nome_completo',
+  nascimento: 'data_de_nascimento',
+  rg: 'rg_doc',
+  orgao: 'orgao_emissor',
+  naturalidade: 'naturalidade',
+  nome_mae: 'nome_completo_da_mae',
+  endereco: 'endereco_completo',
+  cep: 'cep',
+  uuid: 'uuid_widget',
+  status: 'status_widget'
+};
+
+// Gravação e Atualização Inteligente no Google Sheets (Alinhado com os Cabeçalhos da Planilha)
 async function gravarGoogleSheets(camposLinha) {
   if (!google) {
     console.warn('googleapis não carregado no ambiente.');
@@ -82,7 +109,6 @@ async function gravarGoogleSheets(camposLinha) {
     return;
   }
 
-  // Sanitização da Private Key (remove aspas externas e converte \n)
   privateKey = privateKey.replace(/^["']|["']$/g, '').replace(/\\n/g, '\n').trim();
 
   try {
@@ -98,46 +124,90 @@ async function gravarGoogleSheets(camposLinha) {
 
     const targetUuid = String(camposLinha.uuid || '').trim();
 
-    const values = [[
-      targetUuid,                               // Coluna A: ID (UUID)
-      new Date().toISOString(),                 // Coluna B: Data/Hora
-      camposLinha.nome || '',                   // Coluna C: Nome
-      camposLinha.email || '',                  // Coluna D: Email
-      camposLinha.cpf || '',                    // Coluna E: CPF
-      camposLinha.telefone || '',               // Coluna F: Telefone
-      camposLinha.tipo || '',                   // Coluna G: Tipo
-      camposLinha.valor || '',                  // Coluna H: Valor
-      camposLinha.plano || '',                  // Coluna I: Plano
-      camposLinha.descricao || '',              // Coluna J: Descrição
-      camposLinha.credito || '',                // Coluna K: Crédito
-      camposLinha.parcela || '',                // Coluna L: Parcela
-      camposLinha.pontos || '',                 // Coluna M: Pontos
-      camposLinha.dispositivo || '',            // Coluna N: Dispositivo
-      camposLinha.url || '',                    // Coluna O: URL
-      camposLinha.nome_completo || '',          // Coluna P: Nome Completo
-      camposLinha.nascimento || '',             // Coluna Q: Nascimento
-      camposLinha.rg || '',                     // Coluna R: RG
-      camposLinha.orgao || '',                  // Coluna S: Órgão
-      camposLinha.naturalidade || '',           // Coluna T: Naturalidade
-      camposLinha.nome_mae || '',               // Coluna U: Nome da Mãe
-      camposLinha.endereco || '',               // Coluna V: Endereço
-      camposLinha.cep || '',                    // Coluna W: CEP
-      camposLinha.status || '',                 // Coluna X: Status
-      camposLinha.kommo_lead_id || ''           // Coluna Y: Kommo Lead ID
-    ]];
+    // 1. Busca a primeira linha (cabeçalho) para saber a ordem exata das colunas
+    let headers = [];
+    try {
+      const headerResp = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: '1:1'
+      });
+      headers = headerResp.data.values?.[0] || [];
+    } catch (eH) {
+      console.warn('Não foi possível ler os cabeçalhos do Google Sheets:', eH?.message);
+    }
 
-    // 1. Tenta buscar se a ID (targetUuid) já existe na Coluna A
+    // Mapa de dados disponíveis para a linha
+    const mapaValores = {
+      'Data': new Date().toISOString(),
+      'Nome': camposLinha.nome || '',
+      'Email': camposLinha.email || '',
+      'CPF': camposLinha.cpf || '',
+      'Telefone': camposLinha.telefone || '',
+      'Tipo de Consórcio': camposLinha.tipo || '',
+      'Valor desejado': camposLinha.valor || '',
+      'Código Consórcio': camposLinha.plano || '',
+      'Descrição Consórcio': camposLinha.descricao || '',
+      'Valor Consórcio': camposLinha.credito || '',
+      'Parcela Consórcio': camposLinha.parcela || '',
+      'Pontos Livelo': camposLinha.pontos || '',
+      'Dispositivo': camposLinha.dispositivo || '',
+      'URL': camposLinha.url || '',
+      'nome_completo': camposLinha.nome_completo || '',
+      'data_de_nascimento': camposLinha.nascimento || '',
+      'rg_doc': camposLinha.rg || '',
+      'orgao_emissor': camposLinha.orgao || '',
+      'naturalidade': camposLinha.naturalidade || '',
+      'nome_completo_da_mae': camposLinha.nome_mae || '',
+      'endereco_completo': camposLinha.endereco || '',
+      'cep': camposLinha.cep || '',
+      'uuid_widget': targetUuid,
+      'status_widget': camposLinha.status || '',
+      'kommo_lead_id': camposLinha.kommo_lead_id || ''
+    };
+
+    // Monta o array da linha respeitando a ordem dos cabeçalhos da planilha
+    let rowValues = [];
+    let uuidColIndex = 0; // Coluna A por padrão (índice 0)
+
+    if (headers.length > 0) {
+      rowValues = headers.map((colName, idx) => {
+        const keyTrimmed = String(colName || '').trim();
+        if (keyTrimmed === 'uuid_widget' || keyTrimmed === 'ID' || keyTrimmed === 'uuid') {
+          uuidColIndex = idx;
+        }
+        return mapaValores[keyTrimmed] !== undefined ? mapaValores[keyTrimmed] : '';
+      });
+    } else {
+      // Ordem padrão caso a planilha não tenha cabeçalho
+      rowValues = Object.values(mapaValores);
+    }
+
+    // Helper para converter índice numérico de coluna para letra (ex: 0 -> A, 24 -> Y)
+    const getColLetter = (index) => {
+      let temp, letter = '';
+      let i = index;
+      while (i >= 0) {
+        temp = i % 26;
+        letter = String.fromCharCode(temp + 65) + letter;
+        i = Math.floor(i / 26) - 1;
+      }
+      return letter;
+    };
+
+    const uuidColLetter = getColLetter(uuidColIndex);
+
+    // 2. Busca se a ID (targetUuid) já existe na coluna do UUID
     let rowIndex = -1;
     if (targetUuid) {
       try {
         const getResp = await sheets.spreadsheets.values.get({
           spreadsheetId,
-          range: 'A:A'
+          range: `${uuidColLetter}:${uuidColLetter}`
         });
         const rows = getResp.data.values || [];
         for (let i = 0; i < rows.length; i++) {
           if (rows[i] && String(rows[i][0]).trim() === targetUuid) {
-            rowIndex = i + 1; // 1-indexed row number no Google Sheets
+            rowIndex = i + 1; // 1-indexed no Google Sheets
             break;
           }
         }
@@ -146,22 +216,24 @@ async function gravarGoogleSheets(camposLinha) {
       }
     }
 
+    const lastColLetter = getColLetter(rowValues.length - 1);
+
     if (rowIndex > 0) {
-      // 2. Se a linha existir, ATUALIZA a mesma linha na planilha!
+      // 3. Se a linha existir, ATUALIZA a mesma linha na planilha!
       await sheets.spreadsheets.values.update({
         spreadsheetId,
-        range: `A${rowIndex}:Y${rowIndex}`,
+        range: `A${rowIndex}:${lastColLetter}${rowIndex}`,
         valueInputOption: 'USER_ENTERED',
-        resource: { values }
+        resource: { values: [rowValues] }
       });
       console.log(`✅ Linha ${rowIndex} atualizada no Google Sheets (ID: ${targetUuid})`);
     } else {
-      // 3. Se a linha não existir, CRIA uma nova linha na planilha!
+      // 4. Se a linha não existir, CRIA uma nova linha na planilha!
       await sheets.spreadsheets.values.append({
         spreadsheetId,
-        range: 'A:Y',
+        range: `A:${lastColLetter}`,
         valueInputOption: 'USER_ENTERED',
-        resource: { values }
+        resource: { values: [rowValues] }
       });
       console.log(`✅ Nova linha criada no Google Sheets (ID: ${targetUuid})`);
     }
