@@ -16,9 +16,11 @@ const memoryCache = new Map();
 
 const kommo = require('../lib/kommo');
 
-// Parâmetros OTP
+// Parâmetros OTP e Integrações
 const OTP_MIN = 1500, OTP_RANGE = 8000;
 const OTP_TTL_MS = 5 * 60 * 1000; // 5 minutos
+const AIRTABLE_BASE_DEFAULT = 'appAXa666ayzjld9S';
+const SPREADSHEET_ID_DEFAULT = '1FeMY6hfwSix7YR_ndVVxFjcqt2D4JaPWtd38Qc4wP3k';
 
 function getEnv(key, defaultValue = '') {
   return process.env[key] || defaultValue;
@@ -67,11 +69,21 @@ async function enviarSMS(telefone, texto) {
 
 // Gravação no Google Sheets (se as credenciais de conta de serviço estiverem presentes)
 async function gravarGoogleSheets(camposLinha) {
+  if (!google) {
+    console.warn('googleapis não carregado no ambiente.');
+    return;
+  }
+
   const clientEmail = getEnv('GOOGLE_SERVICE_ACCOUNT_EMAIL');
   let privateKey = getEnv('GOOGLE_PRIVATE_KEY');
 
-  if (!clientEmail || !privateKey) return;
-  privateKey = privateKey.replace(/\\n/g, '\n');
+  if (!clientEmail || !privateKey) {
+    console.log('GOOGLE_SERVICE_ACCOUNT_EMAIL ou GOOGLE_PRIVATE_KEY ausentes.');
+    return;
+  }
+
+  // Sanitização da Private Key (remove aspas externas e converte \n)
+  privateKey = privateKey.replace(/^["']|["']$/g, '').replace(/\\n/g, '\n').trim();
 
   try {
     const auth = new google.auth.JWT(
@@ -114,12 +126,17 @@ async function gravarGoogleSheets(camposLinha) {
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: 'Leads!A:Y',
+      range: 'A:Y',
       valueInputOption: 'USER_ENTERED',
       resource: { values }
     });
+
+    console.log('✅ Lead gravado com sucesso no Google Sheets!');
   } catch (err) {
-    console.error('Google Sheets Error:', err);
+    console.error('Google Sheets Error:', err?.message || err);
+    if (err?.response?.data) {
+      console.error('Detalhes Google Sheets:', JSON.stringify(err.response.data));
+    }
   }
 }
 
