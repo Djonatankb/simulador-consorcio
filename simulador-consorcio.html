@@ -218,6 +218,44 @@
     form.proposta .full{grid-column:auto;}
     .sms-toast{left:12px; right:12px; top:12px; max-width:none;}
     .hint{display:none;} /* "Enter para enviar" não se aplica ao teclado do celular */
+    .whatsapp-btn-float { bottom: 18px; right: 18px; width: 52px; height: 52px; }
+    .whatsapp-btn-float svg { width: 28px; height: 28px; }
+  }
+
+  /* ---- Botão Flutuante de WhatsApp ---- */
+  .whatsapp-btn-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99999;
+    width: 58px;
+    height: 58px;
+    background-color: #25D366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    box-shadow: 0px 4px 16px rgba(37, 211, 102, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    animation: whatsappPulse 2.2s infinite;
+  }
+  .whatsapp-btn-float:hover {
+    transform: scale(1.12);
+    box-shadow: 0px 6px 24px rgba(37, 211, 102, 0.65);
+    background-color: #20ba5a;
+  }
+  .whatsapp-btn-float svg {
+    width: 32px;
+    height: 32px;
+    fill: #FFF;
+  }
+  @keyframes whatsappPulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
   }
 </style>
 
@@ -234,6 +272,13 @@
   </header>
   <main class="chat" id="chat" aria-live="polite"></main>
 </div>
+
+<!-- Botão Flutuante de WhatsApp -->
+<a href="https://wa.me/15559924725" target="_blank" rel="noopener noreferrer" class="whatsapp-btn-float" aria-label="Atendimento via WhatsApp" title="Falar no WhatsApp">
+  <svg viewBox="0 0 32 32">
+    <path d="M16 0C7.163 0 0 7.163 0 16c0 2.825.738 5.48 2.03 7.783L.055 31.055l7.464-1.956C9.756 30.34 12.784 31 16 31c8.837 0 16-7.163 16-15S24.837 0 16 0zm0 28.375c-2.738 0-5.38-.756-7.662-2.188l-.55-.344-4.55 1.194 1.213-4.431-.375-.594C2.569 19.644 1.75 17.881 1.75 16 1.75 8.144 8.144 1.75 16 1.75S30.25 8.144 30.25 16 23.856 28.375 16 28.375zm7.394-9.356c-.406-.203-2.406-1.188-2.775-1.325-.369-.138-.638-.203-.906.203-.269.406-1.044 1.325-1.281 1.594-.238.269-.475.306-.881.103-.406-.203-1.713-.631-3.263-2.013-1.206-1.075-2.019-2.406-2.256-2.813-.238-.406-.025-.625.178-.828.181-.181.406-.475.609-.713.203-.238.269-.406.406-.675.138-.269.069-.506-.034-.713-.103-.203-.906-2.188-1.244-3.006-.331-.794-.669-.688-.919-.7-.238-.013-.506-.013-.775-.013-.269 0-.706.103-1.075.506-.369.406-1.413 1.381-1.413 3.369 0 1.988 1.447 3.906 1.65 4.175.203.269 2.85 4.35 6.906 6.1 2.594 1.119 3.125 1.05 4.238.931.75-.081 2.406-.981 2.744-1.931.338-.95.338-1.763.238-1.931-.103-.169-.369-.269-.775-.472z"/>
+  </svg>
+</a>
 
 <script>
 // ============ CONFIG ============
