@@ -67,7 +67,7 @@ async function enviarSMS(telefone, texto) {
   }
 }
 
-// Gravação no Google Sheets (se as credenciais de conta de serviço estiverem presentes)
+// Gravação e Atualização no Google Sheets
 async function gravarGoogleSheets(camposLinha) {
   if (!google) {
     console.warn('googleapis não carregado no ambiente.');
@@ -96,42 +96,75 @@ async function gravarGoogleSheets(camposLinha) {
     const sheets = google.sheets({ version: 'v4', auth });
     const spreadsheetId = getEnv('GOOGLE_SPREADSHEET_ID', SPREADSHEET_ID_DEFAULT);
 
+    const targetUuid = String(camposLinha.uuid || '').trim();
+
     const values = [[
-      new Date().toISOString(),
-      camposLinha.nome || '',
-      camposLinha.email || '',
-      camposLinha.cpf || '',
-      camposLinha.telefone || '',
-      camposLinha.tipo || '',
-      camposLinha.valor || '',
-      camposLinha.plano || '',
-      camposLinha.descricao || '',
-      camposLinha.credito || '',
-      camposLinha.parcela || '',
-      camposLinha.pontos || '',
-      camposLinha.dispositivo || '',
-      camposLinha.url || '',
-      camposLinha.nome_completo || '',
-      camposLinha.nascimento || '',
-      camposLinha.rg || '',
-      camposLinha.orgao || '',
-      camposLinha.naturalidade || '',
-      camposLinha.nome_mae || '',
-      camposLinha.endereco || '',
-      camposLinha.cep || '',
-      camposLinha.uuid || '',
-      camposLinha.status || '',
-      camposLinha.kommo_lead_id || ''
+      targetUuid,                               // Coluna A: ID (UUID)
+      new Date().toISOString(),                 // Coluna B: Data/Hora
+      camposLinha.nome || '',                   // Coluna C: Nome
+      camposLinha.email || '',                  // Coluna D: Email
+      camposLinha.cpf || '',                    // Coluna E: CPF
+      camposLinha.telefone || '',               // Coluna F: Telefone
+      camposLinha.tipo || '',                   // Coluna G: Tipo
+      camposLinha.valor || '',                  // Coluna H: Valor
+      camposLinha.plano || '',                  // Coluna I: Plano
+      camposLinha.descricao || '',              // Coluna J: Descrição
+      camposLinha.credito || '',                // Coluna K: Crédito
+      camposLinha.parcela || '',                // Coluna L: Parcela
+      camposLinha.pontos || '',                 // Coluna M: Pontos
+      camposLinha.dispositivo || '',            // Coluna N: Dispositivo
+      camposLinha.url || '',                    // Coluna O: URL
+      camposLinha.nome_completo || '',          // Coluna P: Nome Completo
+      camposLinha.nascimento || '',             // Coluna Q: Nascimento
+      camposLinha.rg || '',                     // Coluna R: RG
+      camposLinha.orgao || '',                  // Coluna S: Órgão
+      camposLinha.naturalidade || '',           // Coluna T: Naturalidade
+      camposLinha.nome_mae || '',               // Coluna U: Nome da Mãe
+      camposLinha.endereco || '',               // Coluna V: Endereço
+      camposLinha.cep || '',                    // Coluna W: CEP
+      camposLinha.status || '',                 // Coluna X: Status
+      camposLinha.kommo_lead_id || ''           // Coluna Y: Kommo Lead ID
     ]];
 
-    await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range: 'A:Y',
-      valueInputOption: 'USER_ENTERED',
-      resource: { values }
-    });
+    // 1. Tenta buscar se a ID (targetUuid) já existe na Coluna A
+    let rowIndex = -1;
+    if (targetUuid) {
+      try {
+        const getResp = await sheets.spreadsheets.values.get({
+          spreadsheetId,
+          range: 'A:A'
+        });
+        const rows = getResp.data.values || [];
+        for (let i = 0; i < rows.length; i++) {
+          if (rows[i] && String(rows[i][0]).trim() === targetUuid) {
+            rowIndex = i + 1; // 1-indexed row number no Google Sheets
+            break;
+          }
+        }
+      } catch (errSearch) {
+        console.warn('Busca de linha por ID falhou:', errSearch?.message);
+      }
+    }
 
-    console.log('✅ Lead gravado com sucesso no Google Sheets!');
+    if (rowIndex > 0) {
+      // 2. Se a linha existir, ATUALIZA a mesma linha na planilha!
+      await sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: `A${rowIndex}:Y${rowIndex}`,
+        valueInputOption: 'USER_ENTERED',
+        resource: { values }
+      });
+      console.log(`✅ Linha ${rowIndex} atualizada no Google Sheets (ID: ${targetUuid})`);
+    } else {
+      // 3. Se a linha não existir, CRIA uma nova linha na planilha!
+      await sheets.spreadsheets.values.append({
+        spreadsheetId,
+        range: 'A:Y',
+        valueInputOption: 'USER_ENTERED',
+        resource: { values }
+      });
+      console.log(`✅ Nova linha criada no Google Sheets (ID: ${targetUuid})`);
+    }
   } catch (err) {
     console.error('Google Sheets Error:', err?.message || err);
     if (err?.response?.data) {
