@@ -88,6 +88,7 @@ function criarLeadKommo(nome, email, telefone, tipo) {
     {
       name: 'Consórcio ' + (tipo || 'Imóvel') + ' - ' + (nome || 'Lead'),
       _embedded: {
+        tags: [ { name: 'Simulador Consórcio' } ],
         contacts: [
           {
             first_name: nome || 'Cliente',

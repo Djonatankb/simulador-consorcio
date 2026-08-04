@@ -14,15 +14,21 @@ sequenceDiagram
     participant Sheets as Google Sheets
     participant Kommo as CRM Kommo (API v4)
 
-    Cliente->>Backend: 1. verify_otp (SMS Validade)
-    Backend->>Kommo: 2. POST /api/v4/leads/complex (Cria Lead na Triagem)
+    Cliente->>Backend: 1. verify_otp (SMS Válido)
+    Backend->>Kommo: 2. POST /api/v4/leads (Cria/Move Lead na fase Validar Oportunidade com a TAG "Simulador Consórcio")
     Kommo-->>Backend: 3. Retorna { id: 15359565 }
     Backend->>Sheets: 4. Salva kommo_lead_id (15359565) na planilha
 
     Cliente->>Backend: 5. update_lead (Proposta Submetida)
     Backend->>Sheets: 6. Recupera kommo_lead_id (15359565)
-    Backend->>Kommo: 7. PATCH /api/v4/leads (Move pra Transmissão em ~300ms)
+    Backend->>Kommo: 7. PATCH /api/v4/leads (Move para Transmissão em ~300ms)
 ```
+
+---
+
+## 🏷️ Tags atribuídas no Kommo CRM
+
+- **`Simulador Consórcio`**: Atribuída automaticamente na primeira criação ou atualização do lead ao entrar na etapa de **Validar Oportunidade** (estágio inicial `109093611`).
 
 ---
 
