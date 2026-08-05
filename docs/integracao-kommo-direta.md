@@ -15,7 +15,7 @@ sequenceDiagram
     participant Kommo as CRM Kommo (API v4)
 
     Cliente->>Backend: 1. verify_otp (SMS Válido)
-    Backend->>Kommo: 2. POST /api/v4/leads (Cria/Move Lead na fase Validar Oportunidade com as TAGs "Simulador Consórcio" e "Mensagem Simulador")
+    Backend->>Kommo: 2. POST /api/v4/leads (Cria/Move Lead na fase Sem Contato com as TAGs "Simulador Consórcio" e "Mensagem Simulador")
     Kommo-->>Backend: 3. Retorna { id: 15359565 }
     Backend->>Sheets: 4. Salva kommo_lead_id (15359565) na planilha
 
@@ -28,7 +28,7 @@ sequenceDiagram
 
 ## 🏷️ Tags atribuídas no Kommo CRM
 
-Atribuídas automaticamente na primeira criação ou atualização do lead ao entrar na etapa de **Validar Oportunidade** (estágio inicial `109093611`):
+Atribuídas automaticamente na primeira criação ou atualização do lead ao entrar na etapa de **Sem Contato** (estágio inicial `109917515`):
 - **`Simulador Consórcio`**
 - **`Mensagem Simulador`**
 

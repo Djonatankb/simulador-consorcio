@@ -10,7 +10,7 @@ Documentação de todas as **Variáveis de Ambiente (Environment Variables)** co
 | :--- | :--- | :--- |
 | **`KOMMO_TOKEN`** | *(Seu Token Kommo)* | Bearer Token de Longa Duração do Kommo CRM |
 | **`KOMMO_SUBDOMAIN`** | `gustavoligavitoriacom` | Subdomínio da conta no Kommo |
-| **`KOMMO_VALIDAR_OPORTUNIDADE`** | `109093611` | ID da fase "Validar Oportunidade" (fase inicial) |
+| **`KOMMO_SEM_CONTATO`** | `109917515` | ID da fase "Sem Contato" (fase inicial) |
 | **`KOMMO_STAGE_TRANSMISSAO`** | `109093615` | ID da etapa "Transmissão" no Kommo |
 | **`KOMMO_PIPELINE_ID`** | `14131759` | ID do Funil no Kommo |
 | **`SMS_API_KEY`** | *(Chave Comtele)* | Chave de API da Comtele para envio de SMS real |
