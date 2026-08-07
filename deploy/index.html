@@ -295,6 +295,66 @@ async function api(action, payload){
   if(!resp.ok) throw new Error("HTTP " + resp.status);
   return resp.json();
 }
+function obterDadosRastreamento(){
+  const CHAVE_STORAGE = "utms_simulador";
+  let salvos = {};
+  try {
+    const raw = sessionStorage.getItem(CHAVE_STORAGE);
+    if(raw) salvos = JSON.parse(raw);
+  } catch(e){}
+
+  const params = new URLSearchParams(window.location.search);
+  let referrerUrl = document.referrer || "";
+  let refParams = new URLSearchParams();
+  if(referrerUrl){
+    try {
+      const parsedRef = new URL(referrerUrl);
+      refParams = new URLSearchParams(parsedRef.search);
+    } catch(e){}
+  }
+
+  const getParam = (nome) => {
+    return params.get(nome) || refParams.get(nome) || salvos[nome] || "";
+  };
+
+  const utms = {
+    utm_source: getParam("utm_source"),
+    utm_medium: getParam("utm_medium"),
+    utm_campaign: getParam("utm_campaign"),
+    utm_term: getParam("utm_term"),
+    utm_content: getParam("utm_content"),
+    utm_referrer: getParam("utm_referrer"),
+    referrer: getParam("referrer") || referrerUrl,
+    gclientid: getParam("gclientid"),
+    gclid: getParam("gclid"),
+    fbclid: getParam("fbclid")
+  };
+
+  try {
+    sessionStorage.setItem(CHAVE_STORAGE, JSON.stringify(utms));
+  } catch(e){}
+
+  return utms;
+}
+
+function atualizarLinkWhatsapp(utms){
+  const btn = document.querySelector(".whatsapp-btn-float");
+  if(!btn) return;
+  const originalText = "Gostaria de saber mais sobre o consórcio";
+  let textoFinal = originalText;
+  if(utms && (utms.utm_source || utms.utm_campaign)){
+    const lista = [utms.utm_source, utms.utm_campaign].filter(Boolean);
+    textoFinal += ` (Origem: ${lista.join(" / ")})`;
+  }
+  btn.href = `https://wa.me/15559924725?text=${encodeURIComponent(textoFinal)}`;
+}
+
+if(document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => atualizarLinkWhatsapp(obterDadosRastreamento()));
+} else {
+  atualizarLinkWhatsapp(obterDadosRastreamento());
+}
+
 function sincronizaLead(extra){
   if(!BACKEND_URL || !leadUuid) return;
   api("update_lead", {
@@ -312,6 +372,7 @@ function sincronizaLead(extra){
     pontos: lead.pontos,
     dispositivo: typeof resumoDispositivo === "function" ? resumoDispositivo() : "",
     url: window.location.href,
+    utms: obterDadosRastreamento(),
     ...extra
   }).catch(err=>console.warn("update_lead falhou:", err));
 }
@@ -781,7 +842,8 @@ async function fluxo(){
       try{
         const r = await api("verify_otp", { telefone: lead.telefone, codigo: cod.replace(/\D/g,""),
                                             nome: lead.nome, email: lead.email, tipo: lead.tipo,
-                                            dispositivo: resumoDispositivo(), url: document.referrer || location.href });
+                                            dispositivo: resumoDispositivo(), url: document.referrer || location.href,
+                                            utms: obterDadosRastreamento() });
         ok = !!r.ok;
         if(ok) { leadUuid = r.uuid; kommoLeadId = r.kommo_lead_id; } else erroVerif = r.erro || "";
       }catch(err){ ok = false; }

@@ -310,7 +310,7 @@ async function handleVerifyOtp(body) {
 
   // 1. Busca por telefone existente ou cria Lead em Triagem no Kommo CRM
   try {
-    kommoLeadId = await kommo.buscarOuCriarLeadKommo(body.nome, body.email, tel, body.tipo);
+    kommoLeadId = await kommo.buscarOuCriarLeadKommo(body.nome, body.email, tel, body.tipo, body.utms);
   } catch (e) {
     console.error('Erro buscarOuCriarLeadKommo:', e);
   }

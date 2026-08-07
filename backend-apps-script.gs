@@ -82,16 +82,21 @@ function conectarKommo(endpoint, method, payload) {
   }
 }
 
+function montarTagsUtm() {
+  return [
+    { name: 'Simulador Consórcio' },
+    { name: 'Mensagem Simulador' }
+  ];
+}
+
 // Cria lead inicial na etapa de Triagem do Kommo CRM
 function criarLeadKommo(nome, email, telefone, tipo) {
+  const tagsLead = montarTagsUtm();
   const payload = [
     {
       name: 'Consórcio ' + (tipo || 'Imóvel') + ' - ' + (nome || 'Lead'),
       _embedded: {
-        tags: [
-          { name: 'Simulador Consórcio' },
-          { name: 'Mensagem Simulador' }
-        ],
+        tags: tagsLead,
         contacts: [
           {
             first_name: nome || 'Cliente',
@@ -111,10 +116,7 @@ function criarLeadKommo(nome, email, telefone, tipo) {
     }
   ];
   const resp = conectarKommo('leads/complex', 'post', payload);
-  if (resp && resp[0] && resp[0].id) {
-    return resp[0].id;
-  }
-  return null;
+  return (resp && resp[0] && resp[0].id) ? resp[0].id : null;
 }
 
 // Atualiza o lead no Kommo CRM (move para Transmissão e atualiza o valor do consórcio)
