@@ -16,8 +16,7 @@ Este documento registra o mapeamento das variáveis de ambiente do projeto e os 
 
 ---
 
-## 🔄 Histórico de Alterações
+- **11/08/2026**:
+  - Implementada restrição no módulo [lib/kommo.js](file:///c:/Users/Liga%20Vit%C3%B3ria%20MKT/Desktop/Simulador%20Cons%C3%B3rcio/simulador-consorcio/lib/kommo.js): ao localizar um lead já existente no CRM, sua fase só é alterada para **"Sem Contato"** (`109917515`) caso o lead esteja atualmente nas fases de ID **`109093603`** ou **`109093599`**.
+  - Caso o lead existente esteja em uma fase mais avançada do funil, a fase atual é preservada e a tag **`Mensagem Simulador`** não é aplicada, garantindo que o lead não retorne a estágios anteriores nem receba marcações duplicadas de entrada.
 
-- **05/08/2026**:
-  - Alterada a variável de ambiente `KOMMO_VALIDAR_OPORTUNIDADE` (ID `109093611`) para **`KOMMO_SEM_CONTATO`** (ID **`109917515`**).
-  - Atualizado o módulo [lib/kommo.js](file:///c:/Users/Liga%20Vit%C3%B3ria%20MKT/Desktop/Simulador%20Cons%C3%B3rcio/simulador-consorcio/lib/kommo.js) para utilizar a nova variável `KOMMO_SEM_CONTATO` e o valor default `109917515`.

@@ -28,11 +28,19 @@ sequenceDiagram
 
 ## 🏷️ Tags atribuídas no Kommo CRM
 
-Atribuídas automaticamente na primeira criação ou atualização do lead ao entrar na etapa de **Sem Contato** (estágio inicial `109917515`):
+Atribuídas automaticamente na criação do lead ou quando um lead existente está nas fases iniciais permitidas (`109093603` ou `109093599`):
 - **`Simulador Consórcio`**
-- **`Mensagem Simulador`**
+- **`Mensagem Simulador`** *(Aplicada apenas em novos leads ou se o lead existente estiver nas fases permitidas `109093603`/`109093599`. Se o lead estiver em fase avançada, esta tag é omitida)*
 
 ---
+
+## 🛡️ Regra de Preservação de Fase para Leads Existentes
+
+Ao simular ou verificar OTP com um número que já possui Lead cadastrado no Kommo CRM:
+1. O backend consulta o estado atual do lead no Kommo (`GET /api/v4/leads/{id}`).
+2. Se o lead estiver atualmente nas fases **`109093603`** ou **`109093599`**, o lead é movido para **Sem Contato** (`109917515`).
+3. Se o lead estiver em qualquer outra fase (ex: Transmissão `109093615` ou fases avançadas de atendimento), a **fase original é mantida** (não retrocede no funil) e a tag **`Mensagem Simulador`** não é reaplicada.
+
 
 ## 🔑 Configuração das Propriedades do Script (Google Apps Script)
 
