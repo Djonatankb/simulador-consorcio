@@ -10,18 +10,39 @@ Documentação da arquitetura **direta** entre o backend Google Apps Script ([ba
 sequenceDiagram
     autonumber
     actor Cliente as Usuário (Chat no Site)
-    participant Backend as Apps Script (/exec)
+    participant Backend as Backend (Node.js / Apps Script)
     participant Sheets as Google Sheets
     participant Kommo as CRM Kommo (API v4)
 
     Cliente->>Backend: 1. verify_otp (SMS Válido)
-    Backend->>Kommo: 2. POST /api/v4/leads (Cria/Move Lead na fase Sem Contato com as TAGs "Simulador Consórcio" e "Mensagem Simulador")
-    Kommo-->>Backend: 3. Retorna { id: 15359565 }
-    Backend->>Sheets: 4. Salva kommo_lead_id (15359565) na planilha
+    Backend->>Kommo: 2. POST /api/v4/leads (Cria/Busca Lead)
+    Backend->>Kommo: 3. POST /api/v4/contacts (Cria/Atualiza Contato)
+    Backend->>Kommo: 4. POST /api/v4/leads/{lead_id}/link (Vincula Contato ao Lead)
+    Kommo-->>Backend: 5. Retorna ID do Lead
+    Backend->>Sheets: 6. Salva kommo_lead_id na planilha
 
-    Cliente->>Backend: 5. update_lead (Proposta Submetida)
-    Backend->>Sheets: 6. Recupera kommo_lead_id (15359565)
-    Backend->>Kommo: 7. PATCH /api/v4/leads (Move para Transmissão em ~300ms)
+    Cliente->>Backend: 7. update_lead (Proposta Submetida)
+    Backend->>Sheets: 8. Recupera kommo_lead_id
+    Backend->>Kommo: 9. PATCH /api/v4/leads (Move para Transmissão)
+```
+
+---
+
+## 🔗 Vinculação de Contatos e Leads (Kommo API v4)
+
+Na API v4 do Kommo, requisições individuais `POST /api/v4/leads` e `POST /api/v4/contacts` não processam a propriedade `_embedded` para relacionar entidades. 
+
+Para garantir o vínculo perfeito:
+1. O Lead e o Contato são criados individualmente (ou o contato existente é localizado).
+2. Uma requisição explícita é enviada para `POST /api/v4/leads/{lead_id}/link` com o payload:
+```json
+[
+  {
+    "to_entity_id": contact_id,
+    "to_entity_type": "contacts",
+    "metadata": { "is_main": true }
+  }
+]
 ```
 
 ---

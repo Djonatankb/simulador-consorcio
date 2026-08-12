@@ -89,6 +89,18 @@ function montarTagsUtm() {
   ];
 }
 
+function vincularContatoLeadKommo(leadId, contactId) {
+  if (!leadId || !contactId) return null;
+  const payload = [
+    {
+      to_entity_id: Number(contactId),
+      to_entity_type: 'contacts',
+      metadata: { is_main: true }
+    }
+  ];
+  return conectarKommo('leads/' + leadId + '/link', 'post', payload);
+}
+
 // Cria lead inicial na etapa de Triagem do Kommo CRM
 function criarLeadKommo(nome, email, telefone, tipo) {
   const tagsLead = montarTagsUtm();
@@ -116,7 +128,12 @@ function criarLeadKommo(nome, email, telefone, tipo) {
     }
   ];
   const resp = conectarKommo('leads/complex', 'post', payload);
-  return (resp && resp[0] && resp[0].id) ? resp[0].id : null;
+  const leadId = (resp && resp[0] && resp[0].id) ? resp[0].id : null;
+  const contactId = (resp && resp[0] && resp[0].contact_id) ? resp[0].contact_id : null;
+  if (leadId && contactId) {
+    vincularContatoLeadKommo(leadId, contactId);
+  }
+  return leadId;
 }
 
 // Atualiza o lead no Kommo CRM (move para Transmissão e atualiza o valor do consórcio)
