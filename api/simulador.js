@@ -90,6 +90,14 @@ const MAPA_COLUNAS = {
   nome_mae: 'nome_completo_da_mae',
   endereco: 'endereco_completo',
   cep: 'cep',
+  remuneracao_atual: 'remuneracao_atual',
+  estado_civil: 'estado_civil',
+  nome_completo_do_conjuge: 'nome_completo_do_conjuge',
+  cpf_do_conjuge: 'cpf_do_conjuge',
+  data_nascimento_conjuge: 'data_nascimento_conjuge',
+  metodo_pagamento_1_parcela: 'metodo_pagamento_1_parcela',
+  metodo_pagamento_demais_parcela: 'metodo_pagamento_demais_parcela',
+  profissao: 'profissao',
   uuid: 'uuid_widget',
   status: 'status_widget'
 };
@@ -168,6 +176,14 @@ function formatarDataBR(d = new Date()) {
       'nome_completo_da_mae': camposLinha.nome_mae || '',
       'endereco_completo': camposLinha.endereco || '',
       'cep': camposLinha.cep || '',
+      'remuneracao_atual': camposLinha.remuneracao_atual || '',
+      'estado_civil': camposLinha.estado_civil || '',
+      'nome_completo_do_conjuge': camposLinha.nome_completo_do_conjuge || '',
+      'cpf_do_conjuge': camposLinha.cpf_do_conjuge || '',
+      'data_nascimento_conjuge': camposLinha.data_nascimento_conjuge || '',
+      'metodo_pagamento_1_parcela': camposLinha.metodo_pagamento_1_parcela || '',
+      'metodo_pagamento_demais_parcela': camposLinha.metodo_pagamento_demais_parcela || '',
+      'profissao': camposLinha.profissao || '',
       'uuid_widget': targetUuid,
       'status_widget': camposLinha.status || '',
       'kommo_lead_id': camposLinha.kommo_lead_id || ''
@@ -367,11 +383,13 @@ async function handleUpdateLead(body) {
   const status = body.status;
 
   // SOMENTE move para Transmissão no Kommo CRM e grava no Google Sheets se o usuário preencheu a Proposta Completa!
-  if (kommoLeadId && status === 'proposta enviada' && body.proposta) {
-    try {
-      await kommo.atualizarLeadKommo(kommoLeadId, body.valor);
-    } catch (e) {
-      console.error('Erro ao mover lead para Transmissão no Kommo:', e);
+  if (status === 'proposta enviada' && body.proposta) {
+    if (kommoLeadId) {
+      try {
+        await kommo.atualizarLeadKommo(kommoLeadId, body.valor);
+      } catch (e) {
+        console.error('Erro ao mover lead para Transmissão no Kommo:', e);
+      }
     }
 
     try {
@@ -398,6 +416,14 @@ async function handleUpdateLead(body) {
         nome_mae: p.nome_mae,
         endereco: p.endereco,
         cep: p.cep,
+        remuneracao_atual: p.remuneracao_atual,
+        estado_civil: p.estado_civil,
+        nome_completo_do_conjuge: p.nome_completo_do_conjuge,
+        cpf_do_conjuge: p.cpf_do_conjuge,
+        data_nascimento_conjuge: p.data_nascimento_conjuge,
+        metodo_pagamento_1_parcela: p.metodo_pagamento_1_parcela,
+        metodo_pagamento_demais_parcela: p.metodo_pagamento_demais_parcela,
+        profissao: p.profissao,
         uuid: uuid,
         status: 'proposta enviada',
         kommo_lead_id: kommoLeadId

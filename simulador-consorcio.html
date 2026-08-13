@@ -216,6 +216,7 @@
     .inline-input input, form.proposta input, form.proposta select{font-size:16px;}
     form.proposta{grid-template-columns:1fr; gap:10px;}
     form.proposta .full{grid-column:auto;}
+    form.proposta .conjuge-inner{grid-template-columns:1fr !important;}
     .sms-toast{left:12px; right:12px; top:12px; max-width:none;}
     .hint{display:none;} /* "Enter para enviar" não se aplica ao teclado do celular */
     .whatsapp-btn-float { bottom: 18px; right: 18px; width: 52px; height: 52px; }
@@ -735,40 +736,143 @@ function formProposta(){
       ["naturalidade","Naturalidade*","Cidade e UF"],
       ["nome_mae","Nome Completo da Mãe*","Nome completo"],
       ["endereco","Endereço Completo*","Rua, número, cidade, estado","full"],
-      ["cep","CEP*","Somente números",null,"cep"]
+      ["cep","CEP*","Somente números",null,"cep"],
+      ["remuneracao_atual","Remuneração / Renda Mensal*","Ex.: R$ 5.000","full","milhar"],
+      ["profissao","Profissão*","Ex.: Engenheiro, Empresário","full"]
     ];
-    const form = el(`<form class="proposta">${campos.map(([id,rot,ph,cls])=>
-      `<div class="${cls||""}"><label for="${id}">${rot}</label><input id="${id}" required placeholder="${ph}"></div>`).join("")}
-      <button type="submit">Continuar</button></form>`);
+
+    const form = el(`<form class="proposta">
+      ${campos.map(([id,rot,ph,cls])=>
+        `<div class="${cls||""}"><label for="${id}">${rot}</label><input id="${id}" required placeholder="${ph}"></div>`).join("")}
+      
+      <div>
+        <label for="estado_civil">Estado Civil*</label>
+        <select id="estado_civil" required>
+          <option value="">Selecione...</option>
+          <option value="Solteiro(a)">Solteiro(a)</option>
+          <option value="Casado(a)">Casado(a)</option>
+          <option value="União Estável">União Estável</option>
+          <option value="Divorciado(a)">Divorciado(a)</option>
+          <option value="Viúvo(a)">Viúvo(a)</option>
+          <option value="Separado(a)">Separado(a)</option>
+        </select>
+      </div>
+
+      <div id="conjuge_container" class="full" style="display:none; background:#f8f9fa; border:1px solid #cbd5e1; border-radius:10px; padding:12px; margin-top:4px;">
+        <label style="font-weight:700; color:var(--azul); margin-bottom:8px; display:block;">Dados do Cônjuge</label>
+        <div class="conjuge-inner" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div class="full">
+            <label for="nome_completo_do_conjuge">Nome Completo do Cônjuge*</label>
+            <input id="nome_completo_do_conjuge" placeholder="Nome completo do parceiro(a)">
+          </div>
+          <div>
+            <label for="cpf_do_conjuge">CPF do Cônjuge*</label>
+            <input id="cpf_do_conjuge" placeholder="000.000.000-00" inputmode="numeric">
+          </div>
+          <div>
+            <label for="data_nascimento_conjuge">Data Nasc. Cônjuge*</label>
+            <input id="data_nascimento_conjuge" placeholder="dd/mm/aaaa" inputmode="numeric">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="metodo_pagamento_1_parcela">Forma de Pagamento (1ª Parcela)*</label>
+        <select id="metodo_pagamento_1_parcela" required>
+          <option value="">Selecione...</option>
+          <option value="Cartão Porto">Cartão Porto</option>
+          <option value="Cartão de Crédito">Cartão de Crédito</option>
+          <option value="Boleto Bancário">Boleto Bancário</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="metodo_pagamento_demais_parcela">Forma de Pagamento (Demais Parcelas)*</label>
+        <select id="metodo_pagamento_demais_parcela" required>
+          <option value="">Selecione...</option>
+          <option value="Cartão Porto">Cartão Porto</option>
+          <option value="Cartão de Crédito">Cartão de Crédito</option>
+          <option value="Boleto Bancário">Boleto Bancário</option>
+        </select>
+      </div>
+
+      <button type="submit">Continuar</button>
+    </form>`);
+
     montarNaturalidade(form); // troca o input livre por selects encadeados de Estado/Cidade
+    
     campos.forEach(([id,,,,mask])=>{
       if(!mask) return;
       const inp = form.querySelector("#"+id);
       inp.setAttribute("inputmode","numeric");
       inp.addEventListener("input", ()=>{ inp.value = MASCARAS[mask](inp.value); });
     });
+
+    const inpCpfConj = form.querySelector("#cpf_do_conjuge");
+    inpCpfConj.addEventListener("input", ()=>{ inpCpfConj.value = MASCARAS.cpfcnpj(inpCpfConj.value); });
+
+    const inpDataConj = form.querySelector("#data_nascimento_conjuge");
+    inpDataConj.addEventListener("input", ()=>{ inpDataConj.value = MASCARAS.data(inpDataConj.value); });
+
+    const selEstadoCivil = form.querySelector("#estado_civil");
+    const containerConjuge = form.querySelector("#conjuge_container");
+
+    selEstadoCivil.addEventListener("change", ()=>{
+      const ehCasado = ["Casado(a)", "União Estável"].includes(selEstadoCivil.value);
+      containerConjuge.style.display = ehCasado ? "block" : "none";
+      if (!ehCasado) {
+        form.querySelector("#nome_completo_do_conjuge").value = "";
+        form.querySelector("#cpf_do_conjuge").value = "";
+        form.querySelector("#data_nascimento_conjuge").value = "";
+      }
+    });
+
     form.onsubmit = e=>{
       e.preventDefault();
       form.querySelector(".erro")?.remove();
+
       const doc = soDigitos(form.querySelector("#cpf").value);
       const docOk = doc.length===11 ? validaCPF(doc) : validaCNPJ(doc);
+      
+      const estadoCivilVal = selEstadoCivil.value;
+      const ehCasado = ["Casado(a)", "União Estável"].includes(estadoCivilVal);
+      const cpfConj = soDigitos(form.querySelector("#cpf_do_conjuge").value);
+      const dataConj = form.querySelector("#data_nascimento_conjuge").value;
+      const nomeConj = form.querySelector("#nome_completo_do_conjuge").value.trim();
+
       const erros = [
         [!docOk, "#cpf", "CPF/CNPJ inválido — confira os dígitos."],
         [!validaDataNascimento(form.querySelector("#nascimento").value), "#nascimento", "Data de nascimento inválida — use dd/mm/aaaa."],
-        [!form.querySelector("#naturalidade").value.trim(), "#naturalidade_uf", "Selecione estado e cidade."]
+        [!form.querySelector("#naturalidade").value.trim(), "#naturalidade_uf", "Selecione estado e cidade."],
+        [!estadoCivilVal, "#estado_civil", "Selecione o estado civil."],
+        [ehCasado && !nomeConj, "#nome_completo_do_conjuge", "Informe o nome completo do cônjuge."],
+        [ehCasado && (!cpfConj || cpfConj.length!==11 || !validaCPF(cpfConj)), "#cpf_do_conjuge", "CPF do cônjuge inválido."],
+        [ehCasado && !validaDataNascimento(dataConj), "#data_nascimento_conjuge", "Data de nascimento do cônjuge inválida."],
+        [!form.querySelector("#metodo_pagamento_1_parcela").value, "#metodo_pagamento_1_parcela", "Selecione a forma de pagamento da 1ª parcela."],
+        [!form.querySelector("#metodo_pagamento_demais_parcela").value, "#metodo_pagamento_demais_parcela", "Selecione a forma de pagamento das demais parcelas."]
       ];
+
       const falha = erros.find(([cond])=>cond);
       if(falha){
         const [,sel,msg] = falha;
         form.querySelector("button").before(el(`<div class="erro full">${msg}</div>`));
-        form.querySelector(sel).focus();
+        form.querySelector(sel)?.focus();
         return;
       }
+
       const dados = Object.fromEntries(campos.map(([id])=>[id, form.querySelector("#"+id).value]));
+      dados.estado_civil = estadoCivilVal;
+      dados.nome_completo_do_conjuge = ehCasado ? nomeConj : "";
+      dados.cpf_do_conjuge = ehCasado ? form.querySelector("#cpf_do_conjuge").value : "";
+      dados.data_nascimento_conjuge = ehCasado ? dataConj : "";
+      dados.metodo_pagamento_1_parcela = form.querySelector("#metodo_pagamento_1_parcela").value;
+      dados.metodo_pagamento_demais_parcela = form.querySelector("#metodo_pagamento_demais_parcela").value;
+
       form.remove();
       userMsg("Dados enviados ✓");
       resolve(dados);
     };
+
     bolha.appendChild(form); scrollFim();
   });
 }
