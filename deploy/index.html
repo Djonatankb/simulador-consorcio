@@ -733,6 +733,7 @@ function formProposta(){
       ["nascimento","Data de Nascimento*","dd/mm/aaaa",null,"data"],
       ["rg","RG*","Número do RG"],
       ["orgao","Órgão Emissor*","Ex.: SSP-ES"],
+      ["data_emissao_rg","Data de Emissão do RG*","dd/mm/aaaa",null,"data"],
       ["naturalidade","Naturalidade*","Cidade e UF"],
       ["nome_mae","Nome Completo da Mãe*","Nome completo"],
       ["endereco","Endereço Completo*","Rua, número, cidade, estado","full"],
@@ -843,6 +844,7 @@ function formProposta(){
       const erros = [
         [!docOk, "#cpf", "CPF/CNPJ inválido — confira os dígitos."],
         [!validaDataNascimento(form.querySelector("#nascimento").value), "#nascimento", "Data de nascimento inválida — use dd/mm/aaaa."],
+        [!validaDataNascimento(form.querySelector("#data_emissao_rg").value), "#data_emissao_rg", "Data de emissão do RG inválida — use dd/mm/aaaa."],
         [!form.querySelector("#naturalidade").value.trim(), "#naturalidade_uf", "Selecione estado e cidade."],
         [!estadoCivilVal, "#estado_civil", "Selecione o estado civil."],
         [ehCasado && !nomeConj, "#nome_completo_do_conjuge", "Informe o nome completo do cônjuge."],

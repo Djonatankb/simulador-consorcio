@@ -36,8 +36,14 @@ const MAPA_COLUNAS = {
   descricao:'Descrição Consórcio', credito:'Valor Consórcio', parcela:'Parcela Consórcio',
   pontos:'Pontos Livelo', dispositivo:'Dispositivo', url:'URL',
   nome_completo:'nome_completo', nascimento:'data_de_nascimento', rg:'rg_doc',
-  orgao:'orgao_emissor', naturalidade:'naturalidade', nome_mae:'nome_completo_da_mae',
-  endereco:'endereco_completo', cep:'cep',
+  orgao:'orgao_emissor', data_emissao_rg:'data_de_emissao_do_rg', naturalidade:'naturalidade',
+  nome_mae:'nome_completo_da_mae', endereco:'endereco_completo', cep:'cep',
+  remuneracao_atual:'remuneracao_atual', estado_civil:'estado_civil',
+  nome_completo_do_conjuge:'nome_completo_do_conjuge', cpf_do_conjuge:'cpf_do_conjuge',
+  data_nascimento_conjuge:'data_nascimento_conjuge',
+  metodo_pagamento_1_parcela:'metodo_pagamento_1_parcela',
+  metodo_pagamento_demais_parcela:'metodo_pagamento_demais_parcela',
+  profissao:'profissao',
   uuid:'uuid_widget', status:'status_widget', kommo_lead_id:'kommo_lead_id'
 };
 
@@ -332,7 +338,7 @@ function updateLead(req) {
     let kommoLeadId = colKommoId >= 0 ? dados[i][colKommoId] : null;
 
     if (req.proposta) {
-      ['nome_completo', 'cpf', 'nascimento', 'rg', 'orgao', 'naturalidade', 'nome_mae', 'endereco', 'cep']
+      ['nome_completo', 'cpf', 'nascimento', 'rg', 'orgao', 'data_emissao_rg', 'naturalidade', 'nome_mae', 'endereco', 'cep', 'remuneracao_atual', 'estado_civil', 'nome_completo_do_conjuge', 'cpf_do_conjuge', 'data_nascimento_conjuge', 'metodo_pagamento_1_parcela', 'metodo_pagamento_demais_parcela', 'profissao']
         .forEach(function (campo) { campos[campo] = sane(req.proposta[campo]); });
 
       // Atualiza no Kommo CRM se o ID estiver salvo

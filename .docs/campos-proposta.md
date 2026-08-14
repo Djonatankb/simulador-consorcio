@@ -13,6 +13,7 @@ Documentação técnica referente aos campos coletados no formulário final de p
 | `nascimento` | Data de Nascimento* | `validaDataNascimento` (dd/mm/aaaa) | `data_de_nascimento` |
 | `rg` | RG* | Campo obrigatório | `rg_doc` |
 | `orgao` | Órgão Emissor* | Campo obrigatório | `orgao_emissor` |
+| **`data_emissao_rg`** | Data de Emissão do RG* | `validaDataNascimento` (dd/mm/aaaa) | **`data_de_emissao_do_rg`** |
 | `naturalidade` | Naturalidade* | Select UF + Cidade (BrasilAPI) | `naturalidade` |
 | `nome_mae` | Nome Completo da Mãe* | Campo obrigatório | `nome_completo_da_mae` |
 | `endereco` | Endereço Completo* | Campo obrigatório | `endereco_completo` |
